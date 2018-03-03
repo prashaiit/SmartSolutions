@@ -20,5 +20,11 @@ public class MainActivity extends AppCompatActivity {
             // Display rejected number in the TextView
             textView.setText(b.getString("number"));
         }
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_NEW_OUTGOING_CALL);
+
+
+        IncomingCallReceiver receiver = new IncomingCallReceiver();
+       // registerReceiver(receiver, filter);
     }
 }

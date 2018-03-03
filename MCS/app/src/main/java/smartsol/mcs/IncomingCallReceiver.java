@@ -4,9 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.android.internal.telephony.ITelephony;
 
 import java.lang.reflect.Method;
 
@@ -28,7 +31,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
                 super.onCallStateChanged(state, incomingNumber);
-                System.out.println("incomingNumber : "+incomingNumber);
+                Log.i("incomingNumber : ", " = " +incomingNumber);
                 Log.i("incoming", incomingNumber);
                 Log.i("incoming", "state = " + state);
             }
@@ -36,19 +39,24 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
         },PhoneStateListener.LISTEN_CALL_STATE);
 
-        // Get AudioManager
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        // Get TelephonyManager
-        telephonyManager= (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (intent.getAction().equals("android.intent.action.PHONE_STATE"))  {
-            String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-            if (state.equals(TelephonyManager.EXTRA_STATE_RINGING))  {
-                // Get incoming number
-                incomingNumber =  intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                rejectCall();
-                startApp(context, incomingNumber);
-                Log.i("incoming", "rejected the call from " + incomingNumber);
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            Class c = Class.forName(tm.getClass().getName());
+            Method m = c.getDeclaredMethod("getITelephony");
+            m.setAccessible(true);
+            ITelephony telephonyService = (ITelephony) m.invoke(tm);
+            Bundle bundle = intent.getExtras();
+            String phoneNumber = bundle.getString("incoming_number");
+            //Log.i("INCOMING", phoneNumber);
+            if ((phoneNumber != null) && phoneNumber.contains("9959027782")) {
+                telephonyService.silenceRinger();
+                telephonyService.endCall();
+                Log.i("HANG UP", phoneNumber);
             }
+            Log.i("Incoming ph", "ph = " + phoneNumber);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
