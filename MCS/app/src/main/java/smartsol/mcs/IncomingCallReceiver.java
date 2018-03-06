@@ -51,7 +51,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
             Bundle bundle = intent.getExtras();
             String phoneNumber = bundle.getString("incoming_number");
             Log.i("INCOMING", phoneNumber);
-            if ((phoneNumber != null) && phoneNumber.contains("9573738678")) {
+            if ((phoneNumber != null) && phoneNumber.contains("9959027782")) {
                 telephonyService.silenceRinger();
                 telephonyService.endCall();
                 Log.i("HANG UP", phoneNumber);
