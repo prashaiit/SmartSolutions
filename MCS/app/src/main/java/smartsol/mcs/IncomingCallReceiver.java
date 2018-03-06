@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.internal.telephony.ITelephony;
 
@@ -25,11 +26,13 @@ public class IncomingCallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i("incoming", intent.getAction().toString());
+        Toast.makeText(context, "broadcast intent ", Toast.LENGTH_SHORT).show();
 
         TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         telephony.listen(new PhoneStateListener(){
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
+
                 super.onCallStateChanged(state, incomingNumber);
                 Log.i("incomingNumber : ", " = " +incomingNumber);
                 Log.i("incoming", incomingNumber);
@@ -47,8 +50,8 @@ public class IncomingCallReceiver extends BroadcastReceiver {
             ITelephony telephonyService = (ITelephony) m.invoke(tm);
             Bundle bundle = intent.getExtras();
             String phoneNumber = bundle.getString("incoming_number");
-            //Log.i("INCOMING", phoneNumber);
-            if ((phoneNumber != null) && phoneNumber.contains("9959027782")) {
+            Log.i("INCOMING", phoneNumber);
+            if ((phoneNumber != null) && phoneNumber.contains("9573738678")) {
                 telephonyService.silenceRinger();
                 telephonyService.endCall();
                 Log.i("HANG UP", phoneNumber);
