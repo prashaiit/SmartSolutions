@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/stock"
+        android:title="Stocks"/>
+    <item
+        android:id="@+id/track_bills"
+        android:title="Bill Reminders"/>
+    <item
+        android:id="@+id/emi"
+        android:title="EMI"/>
+    <item
+        android:id="@+id/offers"
+        android:title="Offers"/>
+</menu>

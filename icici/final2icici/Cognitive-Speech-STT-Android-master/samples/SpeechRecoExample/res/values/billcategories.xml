@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bill_category">
+        <item>Mobile</item>
+        <item>Electricity</item>
+        <item>LPG</item>
+        <item>Internet</item>
+        <item>Loan EMI</item>
+        <item>Credit Card</item>
+    </string-array>
+
+    <string-array name="mobile_category">
+        <item>Vodafone</item>
+        <item>Idea</item>
+        <item>Airtel</item>
+    </string-array>
+</resources>

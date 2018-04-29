@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/top_container">
+    <!-- tools:context="com.microsoft.AzureIntelligentServicesExample.MainActivity"-->
+
+
+
+
+    <!-- <ListView
+        android:id="@+id/chatlistview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        /> -->
+
+    <EditText
+        android:id="@+id/editTextQ"
+        android:layout_width="fill_parent"
+        android:layout_height="150px"
+        android:layout_marginTop="50px"
+        android:ems="10"
+        android:text="Search"
+        android:gravity="left|top"
+        android:background="@drawable/shape"
+        android:textColor="#4169E1"
+        android:paddingRight="40dp"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/editTextA"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:ems="10"
+        android:text="Search"
+        android:gravity="right|top"
+        android:layout_below="@id/editTextQ"
+        android:background="@drawable/shape"
+        android:textColor="#00008b"
+        android:paddingLeft="10dp"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:textSize="15dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextQ"
+        android:layout_alignRight="@+id/editTextA"
+        android:id="@+id/imageAnswer"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/InputPanel"
+        android:layout_below="@id/editTextA">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/inputText"
+            android:gravity="left|bottom"
+            android:paddingBottom="5dp"
+            android:hint="Search"/>
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/inputText"
+            android:layout_alignBottom="@+id/inputText"
+            android:layout_alignEnd="@+id/inputText"
+            android:layout_centerHorizontal="true"
+            android:drawableTop="@drawable/icon_microsophone"
+            android:background="@null"
+            android:text="" />
+    </RelativeLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Mode"
+        android:id="@+id/buttonSelectMode"
+        android:layout_below="@id/InputPanel" />
+
+    <RadioGroup
+        android:id="@+id/groupMode"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/buttonSelectMode">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Microphone with ShortPhrase mode"
+            android:id="@+id/radioButton"
+            android:layout_above="@+id/micRadioButton"
+            android:layout_alignRight="@+id/editText1" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Microphone with LongDictation mode"
+            android:id="@+id/micDictationRadioButton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Microphone and intent detection"
+            android:id="@+id/micIntentRadioButton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use wav file for ShortPhrase mode"
+            android:id="@+id/dataShortRadioButton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use wav file for LongDictation mode"
+            android:id="@+id/dataLongRadioButton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use wav file and intent detection"
+            android:id="@+id/dataShortIntentRadioButton" />
+    </RadioGroup>
+
+
+
+</RelativeLayout>
