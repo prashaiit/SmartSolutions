@@ -42,25 +42,35 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
         },PhoneStateListener.LISTEN_CALL_STATE);
 
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            Class c = Class.forName(tm.getClass().getName());
-            Method m = c.getDeclaredMethod("getITelephony");
-            m.setAccessible(true);
-            ITelephony telephonyService = (ITelephony) m.invoke(tm);
-            Bundle bundle = intent.getExtras();
-            String phoneNumber = bundle.getString("incoming_number");
-            Log.i("INCOMING", phoneNumber);
-            if ((phoneNumber != null) && phoneNumber.contains("9959027782")) {
-                telephonyService.silenceRinger();
-                telephonyService.endCall();
-                Log.i("HANG UP", phoneNumber);
-            }
-            Log.i("Incoming ph", "ph = " + phoneNumber);
+        if (intent != null && intent.getAction().equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+            String phoneState = intent.hasExtra(TelephonyManager.EXTRA_STATE) ? intent.getStringExtra(TelephonyManager.EXTRA_STATE) : null;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (phoneState != null /*&& phoneState.equals(TelephonyManager.EXTRA_STATE_RINGING*/) {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                try {
+                    Class c = Class.forName(tm.getClass().getName());
+                    Method m = c.getDeclaredMethod("getITelephony");
+                    m.setAccessible(true);
+                    ITelephony telephonyService = (ITelephony) m.invoke(tm);
+                    Bundle bundle = intent.getExtras();
+                    String phoneNumber = bundle.getString("incoming_number");
+                    Log.i("MCS", "Ph = " + phoneNumber);
+                    if ((phoneNumber != null) && phoneNumber.contains("9959027782") ) {
+                        telephonyService.silenceRinger();
+                        telephonyService.endCall();
+                        Log.i("MCS", "Hangup = " + phoneNumber);
+                    }
+                    Log.i("MCS", "ph = " + phoneNumber);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+            }
         }
+
+
     }
 
     private void startApp(Context context, String number){
