@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.android.praskum.audiotrack.MainActivity">
+
+    <Button
+        android:id="@+id/booksButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Books"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="130dp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/newsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="News"
+        android:layout_below="@+id/booksButton"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="15dp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/entertainmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Entertainment"
+        android:layout_below="@+id/newsButton"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="15dp"
+        android:gravity="center"/>
+</RelativeLayout>
