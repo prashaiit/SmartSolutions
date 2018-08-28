@@ -1,5 +1,6 @@
 package com.smartsol.softlock;
 
+import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,7 +14,7 @@ import android.widget.CompoundButton;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final int ADMIN_INTENT = 1;
     private DevicePolicyManager mDevicePolicyManager;
