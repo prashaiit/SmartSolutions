@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF3C5A99"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please Provide Admin Permission to Enable Soft Lock"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switchButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:checked="false"
-        android:layout_centerInParent="true"
-        android:text="@string/app_name"
-        android:textOff="OFF"
-        android:textOn="ON"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="25sp"
-        app:showText="true"/>
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="200dp"
+        android:gravity="center"
+        android:id="@+id/permRequestLayout">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.5"
+            android:text="Please Provide Admin Permission to Enable Locking Feature"
+            android:paddingBottom="40dp"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:id="@+id/enableButton"
+            android:text="     Enable     "
+            android:layout_gravity="center"
+            android:background="@drawable/buttonstyle"
+            android:textColor="@color/colorWhite"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="200dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/postPermGrantedLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:layout_gravity="center"
+            android:lineSpacingMultiplier="1.5"
+            android:gravity="center_horizontal"
+            android:text="You can now lock your screen by just clicking the app icon"
+            android:paddingBottom="40dp"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:id="@+id/doneButton"
+            android:text="     Done     "
+            android:layout_gravity="center"
+            android:background="@drawable/buttonstyle"
+            android:textColor="@color/colorWhite"/>
+    </LinearLayout>
+</LinearLayout>
