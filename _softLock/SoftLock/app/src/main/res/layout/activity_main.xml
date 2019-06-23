@@ -8,6 +8,15 @@
     android:background="#FF3C5A99"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Soft Lock"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:paddingTop="20dp"
+        android:layout_marginLeft="10dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
