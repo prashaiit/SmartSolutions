@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,33 +13,38 @@ import org.w3c.dom.Text;
 public class SmsActionActivity extends Activity {
 
     private TextView timerView;
+    private int value = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_smsaction);
-
-        timerView = (TextView) findViewById(R.id.timervalue);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("Addtimer", "smsaction resume");
+        timerView = (TextView) findViewById(R.id.timervalue);
+        timerView.setText(Integer.toString(value));
+    }
 
     public void TriggerAddTimerActivity(View view) {
         Intent intent = new Intent(SmsActionActivity.this, AddTimerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, 6);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            timerView.setText(data.getIntExtra("timer", 0));
-
+        Log.i("addtimer", "OnActivityResult");
+        Log.i("addtimer", "req = " + requestCode + " resCode " + resultCode);
+        if (requestCode == 6 && resultCode == 5) {
+            value = data.getIntExtra("timer", 0);
         }
         else {
-            timerView.setText("fdskfjsdlkj");
+            value = 0;
         }
     }
 }

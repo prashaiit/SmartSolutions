@@ -3,6 +3,7 @@ package com.praskum.parentcontrol;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -117,7 +118,8 @@ public class AddTimerActivity extends Activity {
     public void Done(View view) {
         Intent intent = new Intent();
         intent.putExtra("timer", value);
-        setResult(Activity.RESULT_OK, intent);
-        this.finish();
+        Log.i("addtimer",  " value " + value);
+        setResult(5, intent);
+        finish();
     }
 }
