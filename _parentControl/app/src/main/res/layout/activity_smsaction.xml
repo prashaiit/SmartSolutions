@@ -1,43 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorbackground"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/settimerlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/buttonshape"
+            android:text="Set Timer"
+            android:textSize="15dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"
             android:id="@+id/addtimer"
             android:onClick="TriggerAddTimerActivity"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorbackground"
+            android:textColor="@color/colorforeground"
             android:text="Hello"
             android:id="@+id/timervalue"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/timerValueSet"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+
+                    android:text="00"
+                    android:textSize="@dimen/timervalue_textsize"
+                    android:id="@+id/hours"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+                    android:text="h"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="@dimen/units_textsize"
+                    android:id="@+id/hourunit"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+                    android:text="00"
+                    android:textSize="@dimen/timervalue_textsize"
+                    android:id="@+id/mintues"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+                    android:text="m"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="@dimen/units_textsize"
+                    android:id="@+id/minuteunit"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+                    android:text="00"
+                    android:textSize="@dimen/timervalue_textsize"
+                    android:id="@+id/seconds"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorbackground"
+                    android:textColor="@color/colorforeground"
+                    android:text="s"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="@dimen/units_textsize"
+                    android:id="@+id/secondsUnit"/>
+
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/togglebuttonlayout"
+        android:layout_below="@+id/settimerlayout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switchtohome"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switchtohome"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lock"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="end">
 
-        <ToggleButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lock"/>
-    </LinearLayout>
-</LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorbackground"
+            android:text="Create"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/buttonshape"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"/>
+    </RelativeLayout>
+</RelativeLayout>

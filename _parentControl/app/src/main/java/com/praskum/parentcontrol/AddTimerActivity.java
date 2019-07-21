@@ -89,26 +89,10 @@ public class AddTimerActivity extends Activity {
     }
 
     private void UpdateTextView(){
-        int v = value % 100;
-        String vv = Integer.toString(v);
-        if (v < 10) {
-            vv = "0" + vv;
-        }
-        sec.setText(vv);
-
-        v = (value % 10000)/100;
-        vv = Integer.toString(v);
-        if (v < 10) {
-            vv = "0" + vv;
-        }
-        min.setText(vv);
-
-        v = (value % 1000000)/10000;
-        vv = Integer.toString(v);
-        if (v < 10) {
-            vv = "0" + vv;
-        }
-        hour.setText(vv);
+        Utils utils = new Utils();
+        sec.setText(utils.getSecValue(value));
+        min.setText(utils.getMinValue(value));
+        hour.setText(utils.getHourValue(value));
     }
 
     public void Cancel(View view) {

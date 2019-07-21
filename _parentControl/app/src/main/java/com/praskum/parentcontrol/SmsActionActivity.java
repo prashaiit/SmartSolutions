@@ -13,6 +13,7 @@ import org.w3c.dom.Text;
 public class SmsActionActivity extends Activity {
 
     private TextView timerView;
+    private TextView hour, min, sec;
     private int value = 0;
 
     @Override
@@ -20,6 +21,9 @@ public class SmsActionActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_smsaction);
+        hour = (TextView) findViewById(R.id.hours);
+        min = (TextView) findViewById(R.id.mintues);
+        sec = (TextView) findViewById(R.id.seconds);
     }
 
     @Override
@@ -28,6 +32,7 @@ public class SmsActionActivity extends Activity {
         Log.i("Addtimer", "smsaction resume");
         timerView = (TextView) findViewById(R.id.timervalue);
         timerView.setText(Integer.toString(value));
+        UpdateTextView();
     }
 
     public void TriggerAddTimerActivity(View view) {
@@ -46,5 +51,12 @@ public class SmsActionActivity extends Activity {
         else {
             value = 0;
         }
+    }
+
+    private void UpdateTextView(){
+        Utils utils = new Utils();
+        sec.setText(utils.getSecValue(value));
+        min.setText(utils.getMinValue(value));
+        hour.setText(utils.getHourValue(value));
     }
 }

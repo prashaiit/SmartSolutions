@@ -81,7 +81,7 @@
 
         <LinearLayout
             android:id="@+id/timerreset"
-            android:layout_toRightOf="@+id/timerText"
+            android:layout_toEndOf="@+id/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
@@ -229,7 +229,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:id="@+id/cancel"
             android:text="Cancel"
             android:textAllCaps="false"
@@ -240,8 +240,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right"
+            android:layout_alignParentEnd="true"
             android:id="@+id/done"
             android:text="Done"
             android:textAllCaps="false"
