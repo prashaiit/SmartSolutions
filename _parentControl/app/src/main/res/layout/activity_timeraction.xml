@@ -26,14 +26,6 @@
             android:id="@+id/addtimer"
             android:onClick="TriggerAddTimerActivity"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorbackground"
-            android:textColor="@color/colorforeground"
-            android:text="Hello"
-            android:id="@+id/timervalue"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -121,6 +113,8 @@
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textOn="Switch to Home"
+                android:textOff="Switch to Home"
                 android:id="@+id/switchtohome"/>
         </LinearLayout>
 
@@ -131,7 +125,33 @@
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textOn="Lock the Screen"
+                android:textOff="Lock the Screen"
                 android:id="@+id/lock"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="Turn Off Wifi"
+                android:textOff="Turn Off Wifi"
+                android:id="@+id/wifi"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="Turn On Silent Mode"
+                android:textOff="Turn On Silent Mode"
+                android:id="@+id/silent"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -148,18 +168,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:background="@color/colorbackground"
+            android:background="@drawable/buttonshape"
+            android:id="@+id/createTimerAction"
             android:text="Create"
             android:textAllCaps="false"
-            android:textColor="@color/colorforeground"/>
+            android:textColor="@color/colorforeground"
+            android:onClick="CreateTimerAction"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@drawable/buttonshape"
+            android:id="@+id/deleteTimerAction"
             android:text="Delete"
             android:textAllCaps="false"
-            android:textColor="@color/colorforeground"/>
+            android:textColor="@color/colorforeground"
+            android:onClick="DeleteTimerAction"/>
     </RelativeLayout>
 </RelativeLayout>
