@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="@color/colorbackground"
     android:orientation="vertical">
 
     <Button
@@ -15,14 +16,22 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:text="Create Timer Action"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/colorforeground"
         android:onClick="TriggerTimerActionActivity"/>
 
     <Button
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/SmsAction"
+        android:text="Create Sms Action"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/colorforeground"
         android:onClick="TriggerSmsActionActivity"/>
 
     <Button
@@ -33,7 +42,9 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:text="View Timer Actions"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/colorforeground"
         android:onClick="TriggerTimerActionActivity2"/>
-
 
 </LinearLayout>

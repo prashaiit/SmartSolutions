@@ -11,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 public class TimerActionActivity extends Activity {
@@ -38,7 +36,46 @@ public class TimerActionActivity extends Activity {
         wifi = (ToggleButton) findViewById(R.id.wifi);
         silentMode = (ToggleButton) findViewById(R.id.silent);
 
+        lock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(lock);
+            }
+        });
+
+        switch2Home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(switch2Home);
+            }
+        });
+
+        silentMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(silentMode);
+            }
+        });
+
+        wifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(wifi);
+            }
+        });
+
         alarmId = getIntent().getIntExtra("AlarmId", -1);
+    }
+
+    protected void UpdateToggleButton(ToggleButton toggleButton) {
+        if (toggleButton.isChecked()) {
+            toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
+            toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
+        }
+        else {
+            toggleButton.setBackgroundResource(R.drawable.buttonshape);
+            toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
+        }
     }
 
     @Override
@@ -71,6 +108,11 @@ public class TimerActionActivity extends Activity {
             silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
             Log.i("timeraction", "values read = " + c.getInt(1) + " , " + c.getInt(2));
         }
+
+        UpdateToggleButton(lock);
+        UpdateToggleButton(wifi);
+        UpdateToggleButton(silentMode);
+        UpdateToggleButton(switch2Home);
     }
 
     public void TriggerAddTimerActivity(View view) {
@@ -82,13 +124,22 @@ public class TimerActionActivity extends Activity {
         Log.i("smsAction", "createTimer");
         Random random = new Random();
         int randomnumber = random.nextInt(1000);
+
+        TimerActionDataModel timerActionDataModel = new TimerActionDataModel();
+        timerActionDataModel.AlarmId = randomnumber;
+        timerActionDataModel.LockScreen = lock.isChecked();
+        timerActionDataModel.SwitchToHome = switch2Home.isChecked();
+        timerActionDataModel.SilentMode = silentMode.isChecked();
+        timerActionDataModel.WifiMode = wifi.isChecked();
+
         DatabaseHelper dbhelper = new DatabaseHelper(getApplicationContext());
-        boolean isSuccess = dbhelper.InsertData(randomnumber, lock.isChecked(), switch2Home.isChecked(), wifi.isChecked(), silentMode.isChecked());
+        boolean isSuccess = dbhelper.InsertData(timerActionDataModel);
 
         int i = 0;
         while (!isSuccess && i < 10) {
             randomnumber = random.nextInt(1000);
-            isSuccess = dbhelper.InsertData(randomnumber, lock.isChecked(), switch2Home.isChecked(), wifi.isChecked(), silentMode.isChecked());
+            timerActionDataModel.AlarmId = randomnumber;
+            isSuccess = dbhelper.InsertData(timerActionDataModel);
             i++;
         }
 

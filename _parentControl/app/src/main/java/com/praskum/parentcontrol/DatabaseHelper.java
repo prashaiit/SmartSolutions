@@ -32,8 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean InsertData(int alarmId, boolean lock, boolean switchToHome, boolean wifi, boolean silentMode) {
-        Cursor c = this.ReadData(alarmId);
+    public boolean InsertData(TimerActionDataModel data) {
+        Cursor c = this.ReadData(data.AlarmId);
         if (c != null && c.getCount() > 0) {
             c.close();
             return false;
@@ -43,11 +43,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
 
         ContentValues values = new ContentValues();
-        values.put(ALARMID, alarmId);
-        values.put(LOCK, lock ? 1 : 0);
-        values.put(SWITCH2HOME, switchToHome ? 1 : 0);
-        values.put(WIFI, wifi ? 1 : 0);
-        values.put(SILENT, silentMode ? 1 : 0);
+        values.put(ALARMID, data.AlarmId);
+        values.put(LOCK, data.LockScreen ? 1 : 0);
+        values.put(SWITCH2HOME, data.SwitchToHome ? 1 : 0);
+        values.put(WIFI, data.WifiMode ? 1 : 0);
+        values.put(SILENT, data.SilentMode ? 1 : 0);
 
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert(TABLE_NAME, null, values);
@@ -56,8 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
-        Log.i("db", "Inserted Alarm Id " + alarmId);
-        Log.i("db", "values inserted " + lock + ", " + switchToHome);
+        Log.i("db", "Inserted Alarm Id " + data.AlarmId);
+        Log.i("db", "values inserted " + data.LockScreen + ", " + data.SwitchToHome);
         db.close();
         return true;
     }

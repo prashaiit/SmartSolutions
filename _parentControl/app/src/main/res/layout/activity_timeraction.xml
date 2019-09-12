@@ -107,50 +107,78 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/margintopbottomToggleButton"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/marginleftrightToggleButton"
+                android:layout_marginEnd="@dimen/marginleftrightToggleButton"
                 android:textOn="Switch to Home"
                 android:textOff="Switch to Home"
+                android:textColor="@color/colorforeground"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"
                 android:id="@+id/switchtohome"/>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/margintopbottomToggleButton"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/marginleftrightToggleButton"
+                android:layout_marginEnd="@dimen/marginleftrightToggleButton"
                 android:textOn="Lock the Screen"
                 android:textOff="Lock the Screen"
+                android:textColor="@color/colorforeground"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"
                 android:id="@+id/lock"/>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/margintopbottomToggleButton"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/marginleftrightToggleButton"
+                android:layout_marginEnd="@dimen/marginleftrightToggleButton"
                 android:textOn="Turn Off Wifi"
                 android:textOff="Turn Off Wifi"
+                android:textColor="@color/colorforeground"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"
                 android:id="@+id/wifi"/>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/margintopbottomToggleButton"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/marginleftrightToggleButton"
+                android:layout_marginEnd="@dimen/marginleftrightToggleButton"
                 android:textOn="Turn On Silent Mode"
                 android:textOff="Turn On Silent Mode"
+                android:textColor="@color/colorforeground"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"
                 android:id="@+id/silent"/>
         </LinearLayout>
 

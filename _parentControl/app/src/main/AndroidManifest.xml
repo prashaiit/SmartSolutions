@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".TimerActionActivity"/>
         <activity android:name=".AddTimerActivity"/>
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".AlarmReceiver" android:enabled="true"/>
     </application>
 
 </manifest>

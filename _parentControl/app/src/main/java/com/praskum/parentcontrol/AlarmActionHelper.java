@@ -26,6 +26,7 @@ public class AlarmActionHelper {
 
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(Constants.TIMERINTENTACTION);
         intent.putExtra("id", requestCode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
 

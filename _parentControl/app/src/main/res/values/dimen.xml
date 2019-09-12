@@ -4,4 +4,6 @@
     <dimen name="timervalue_textsize">40dp</dimen>
     <dimen name="units_textsize">15dp</dimen>
     <dimen name="marginleftright">30dp</dimen>
+    <dimen name="marginleftrightToggleButton">90dp</dimen>
+    <dimen name="margintopbottomToggleButton">30dp</dimen>
 </resources>
