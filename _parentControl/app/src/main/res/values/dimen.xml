@@ -3,7 +3,17 @@
     <dimen name="addtimer_textsize">25dp</dimen>
     <dimen name="timervalue_textsize">40dp</dimen>
     <dimen name="units_textsize">15dp</dimen>
+    <dimen name="timer_selected_textsize">25dp</dimen>
+    <dimen name="timer_selected_units_textsize">15dp</dimen>
     <dimen name="marginleftright">30dp</dimen>
-    <dimen name="marginleftrightToggleButton">90dp</dimen>
+    <dimen name="marginleftToggleButton">90dp</dimen>
+    <dimen name="marginrightToggleButton">25sp</dimen>
     <dimen name="margintopbottomToggleButton">30dp</dimen>
+    <dimen name="labels_textsize">15sp</dimen>
+    <dimen name="labels_margin">25sp</dimen>
+    <dimen name="togglebuttonheight">5sp</dimen>
+    <dimen name="togglebuttonwidth">3sp</dimen>
+    <dimen name="timeroptionheight">25sp</dimen>
+    <dimen name="seekbarpaddingtop">10sp</dimen>
+    <dimen name="seekbarpaddingbottom">5sp</dimen>
 </resources>

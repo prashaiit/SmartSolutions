@@ -6,4 +6,7 @@ public class TimerActionDataModel {
     public boolean SwitchToHome;
     public boolean SilentMode;
     public boolean WifiMode;
+    public int MediaVolume;
+    public int Brightness;
+    public boolean ScreenOff;
 }

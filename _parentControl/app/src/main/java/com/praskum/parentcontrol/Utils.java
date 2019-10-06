@@ -1,5 +1,9 @@
 package com.praskum.parentcontrol;
 
+import android.content.Context;
+import android.provider.Settings;
+import android.util.Log;
+
 public class Utils {
     public String getHourValue(int value){
         int v = (value % 1000000)/10000;
@@ -26,5 +30,18 @@ public class Utils {
             vv = "0" + vv;
         }
         return vv;
+    }
+
+    public static int getBrightness(Context context) {
+        try {
+            int currentBrightness = Settings.System.getInt(context.getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS);
+
+            Log.i("seekbar", "cur brightness " + currentBrightness);
+            return currentBrightness;
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

@@ -8,43 +8,82 @@
     android:background="@color/colorbackground"
     android:orientation="vertical">
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TimerAction"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Create Timer Action"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/colorforeground"
-        android:onClick="TriggerTimerActionActivity"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/SmsAction"
-        android:text="Create Sms Action"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/colorforeground"
-        android:onClick="TriggerSmsActionActivity"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TimerAction"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Timer Actions"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorforeground"
+            android:onClick="TriggerTimerActionActivity"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TimerAction2"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="View Timer Actions"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/colorforeground"
-        android:onClick="TriggerTimerActionActivity2"/>
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SmsAction"
+            android:text="Sms Actions"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorforeground"
+            android:onClick="TriggerSmsActionActivity"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TimerAction2"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="View Timer Actions"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorforeground"
+            android:onClick="TriggerTimerActionActivity2"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Alerts"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Alerts"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorforeground"
+            android:onClick="TriggerTimerActionActivity2"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Reminders"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Reminders"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/colorforeground"
+            android:onClick="TriggerTimerActionActivity2"/>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorbackground">#000000</color>
     <color name="colorforeground">#FFFFFF</color>
+    <color name="mediavolumegreen">#00FF00</color>
+    <color name="mediavolumered">#FF0000</color>
+
 </resources>

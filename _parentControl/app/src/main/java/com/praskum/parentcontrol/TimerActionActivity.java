@@ -1,25 +1,39 @@
 package com.praskum.parentcontrol;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.Random;
 
-public class TimerActionActivity extends Activity {
+import static android.view.View.VISIBLE;
+
+public class TimerActionActivity extends AppCompatActivity {
 
     private TextView hour, min, sec;
     private int value = 0;
     private int alarmId;
     private Button createAction, deleteAtion;
-    private ToggleButton lock, switch2Home, wifi, silentMode;
+    private ToggleButton lock, switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen;
+    private SeekBar mediaVolume, brightness;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,10 @@ public class TimerActionActivity extends Activity {
         switch2Home = (ToggleButton) findViewById(R.id.switchtohome);
         wifi = (ToggleButton) findViewById(R.id.wifi);
         silentMode = (ToggleButton) findViewById(R.id.silent);
+        mediaVolume = (SeekBar) findViewById(R.id.mediavolume);
+        brightness = (SeekBar) findViewById(R.id.brightness);
+        brightnessWritePermission = (ToggleButton) findViewById(R.id.brightnesswritepermissions);
+        turnOffScreen = (ToggleButton) findViewById(R.id.turnoffscreen);
 
         lock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +82,69 @@ public class TimerActionActivity extends Activity {
             }
         });
 
+        brightnessWritePermission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(brightnessWritePermission);
+            }
+        });
+        mediaVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.i("seekbar", "value " + progress);
+
+                UpdateMediaVolumeSeekbarColor(mediaVolume, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                UpdateBrightnessSeekbarColor(brightness, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        brightnessWritePermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501);
+                }
+
+                UpdateBrightnessControl();
+            }
+        });
+
+        turnOffScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501);
+                }
+                UpdateToggleButton(turnOffScreen);
+            }
+        });
+
         alarmId = getIntent().getIntExtra("AlarmId", -1);
     }
 
@@ -85,7 +166,7 @@ public class TimerActionActivity extends Activity {
         UpdateTextView();
 
         if (alarmId == -1) {
-            createAction.setVisibility(View.VISIBLE);
+            createAction.setVisibility(VISIBLE);
             deleteAtion.setVisibility(View.INVISIBLE);
 
             if (value == 0) {
@@ -97,7 +178,7 @@ public class TimerActionActivity extends Activity {
         }
         else {
             createAction.setVisibility(View.INVISIBLE);
-            deleteAtion.setVisibility(View.VISIBLE);
+            deleteAtion.setVisibility(VISIBLE);
 
             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
             Log.i("TimerAction", "Reading the data for " + alarmId);
@@ -113,6 +194,19 @@ public class TimerActionActivity extends Activity {
         UpdateToggleButton(wifi);
         UpdateToggleButton(silentMode);
         UpdateToggleButton(switch2Home);
+        UpdateToggleButton(brightnessWritePermission);
+        UpdateMediaVolume();
+        UpdateBrightnessControl();
+        UpdateScreenTurnOffControl();
+    }
+
+    public void UpdateMediaVolume() {
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        int currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        Log.i("seekbar", "max vol " + am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        Log.i("seekbar", "curr vol " + currentVolume);
+        mediaVolume.setProgress(currentVolume);
+        UpdateMediaVolumeSeekbarColor(mediaVolume, currentVolume);
     }
 
     public void TriggerAddTimerActivity(View view) {
@@ -131,6 +225,14 @@ public class TimerActionActivity extends Activity {
         timerActionDataModel.SwitchToHome = switch2Home.isChecked();
         timerActionDataModel.SilentMode = silentMode.isChecked();
         timerActionDataModel.WifiMode = wifi.isChecked();
+        timerActionDataModel.MediaVolume= mediaVolume.getProgress();
+
+        if (brightness.getVisibility() == VISIBLE && brightnessWritePermission.isChecked()) {
+            timerActionDataModel.Brightness = brightness.getProgress();
+        }
+        else {
+            timerActionDataModel.Brightness = -1;
+        }
 
         DatabaseHelper dbhelper = new DatabaseHelper(getApplicationContext());
         boolean isSuccess = dbhelper.InsertData(timerActionDataModel);
@@ -192,5 +294,54 @@ public class TimerActionActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
+    }
+
+    public void UpdateMediaVolumeSeekbarColor(SeekBar sb, int progress) {
+        if (progress > 10) {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.SRC_ATOP);
+        }
+        else {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+    public void UpdateBrightnessSeekbarColor(SeekBar sb, int progress) {
+        if (progress > 10) {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.SRC_ATOP);
+        }
+        else {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+    public void UpdateBrightnessControl() {
+        int currentBrightness = Utils.getBrightness(getApplicationContext());
+
+        if (currentBrightness != -1) {
+            brightness.setProgress(currentBrightness);
+
+            boolean hasPermission = PermissionChecker.CheckPermissionForWriteSettings(this);
+            brightness.setEnabled(hasPermission && brightnessWritePermission.isChecked());
+            brightness.setVisibility(VISIBLE);
+
+            if (!hasPermission) {
+                brightnessWritePermission.setChecked(false);
+            }
+        }
+        else {
+            brightness.setVisibility(View.INVISIBLE);
+            brightness.setEnabled(false);
+            brightnessWritePermission.setChecked(false);
+        }
+    }
+
+    public void UpdateScreenTurnOffControl() {
+        if (!PermissionChecker.CheckPermissionForWriteSettings(this)) {
+            turnOffScreen.setChecked(false);
+        }
     }
 }
