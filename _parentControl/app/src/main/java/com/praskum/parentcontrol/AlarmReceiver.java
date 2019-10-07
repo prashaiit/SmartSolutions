@@ -42,10 +42,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 Log.i("AlarmReceiver", "Switching to home screen");
                 context.startActivity(startMain);
-
-                int defaultTurnOffTime =  Settings.System.getInt(context.getContentResolver(),Settings.System.SCREEN_OFF_TIMEOUT, 60000);
-                Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 100);
-                //Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, defaultTurnOffTime);
             }
 
             int currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -62,6 +58,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             int newBrightness = c.getInt(c.getColumnIndex("Brightness"));
             if (newBrightness >= 0) {
                 Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, newBrightness);
+            }
+
+            if (c.getInt(c.getColumnIndex("ScreenOff")) == 1) {
+                int defaultTurnOffTime =  Settings.System.getInt(context.getContentResolver(),Settings.System.SCREEN_OFF_TIMEOUT, 60000);
+                Values.ScreenOffTimeout = defaultTurnOffTime;
+                Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 10);
             }
         }
 

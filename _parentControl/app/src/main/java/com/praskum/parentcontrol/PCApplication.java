@@ -1,7 +1,9 @@
 package com.praskum.parentcontrol;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.provider.Settings;
 
 public class PCApplication extends Application {
 

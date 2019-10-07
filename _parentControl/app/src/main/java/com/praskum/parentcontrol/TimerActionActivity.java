@@ -227,12 +227,14 @@ public class TimerActionActivity extends AppCompatActivity {
         timerActionDataModel.WifiMode = wifi.isChecked();
         timerActionDataModel.MediaVolume= mediaVolume.getProgress();
 
-        if (brightness.getVisibility() == VISIBLE && brightnessWritePermission.isChecked()) {
+        if (brightness.isEnabled() && brightnessWritePermission.isChecked()) {
             timerActionDataModel.Brightness = brightness.getProgress();
         }
         else {
             timerActionDataModel.Brightness = -1;
         }
+
+        timerActionDataModel.ScreenOff = turnOffScreen.isChecked();
 
         DatabaseHelper dbhelper = new DatabaseHelper(getApplicationContext());
         boolean isSuccess = dbhelper.InsertData(timerActionDataModel);
@@ -253,6 +255,11 @@ public class TimerActionActivity extends AppCompatActivity {
             helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s);
 
             Toast.makeText(getApplicationContext(), "Timer Action Created", Toast.LENGTH_SHORT).show();
+
+            // Register the Common Service
+            Intent serviceIntent = new Intent(this, CommonService.class);
+            startService(serviceIntent);
+
             this.finish();
         }
         else {

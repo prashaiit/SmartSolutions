@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SILENT = "Silent";
     private static final String MEDIAVOLUME = "MediaVolume";
     private static final String BRIGHTNESS = "Brightness";
+    private static final String SCREENOFF = "ScreenOff";
     private static final String COMMASPACE = ", ";
 
     public DatabaseHelper(Context context) {
@@ -25,8 +26,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (AlarmId INTEGER PRIMARY KEY, Lock INTEGER DEFAULT 0, " +
-                "SwitchToHomeScreen INTEGER DEFAULT 0, Wifi INTEGER DEFAULT 0, Silent INTEGER DEFAULT 0, MediaVolume DEFAULT 7, Brightness DEFAULT -1)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
+                "AlarmId INTEGER PRIMARY KEY, " +
+                "Lock INTEGER DEFAULT 0, " +
+                "SwitchToHomeScreen INTEGER DEFAULT 0, " +
+                "Wifi INTEGER DEFAULT 0, " +
+                "Silent INTEGER DEFAULT 0, " +
+                "MediaVolume INTEGER DEFAULT 7, " +
+                "Brightness INTEGER DEFAULT -1," +
+                "ScreenOff INTEGER DEFAULT 0" +
+                ")");
     }
 
     @Override
@@ -52,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(SILENT, data.SilentMode ? 1 : 0);
         values.put(MEDIAVOLUME, data.MediaVolume);
         values.put(BRIGHTNESS, data.Brightness);
+        values.put(SCREENOFF, data.ScreenOff ? 1 : 0);
 
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert(TABLE_NAME, null, values);

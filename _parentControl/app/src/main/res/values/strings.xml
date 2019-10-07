@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ParentControl</string>
+    <string name="app_name">Parental Control</string>
+    <string name="sms_text_header">Register a Keyword and a set of Actions from below list. Whenever a message with registered Keyword is received from any of the parents mobile number, all the actions registered with that keyword will be executed</string>
 </resources>

@@ -26,7 +26,11 @@
         </activity>
         <activity android:name=".TimerActionActivity"/>
         <activity android:name=".AddTimerActivity"/>
+        <activity android:name=".AlertActivity"/>
+        <activity android:name=".SmsActionActivity"/>
         <receiver android:name=".AlarmReceiver" android:enabled="true"/>
+        <receiver android:name=".CommonBroadCastReceiver" android:enabled="true"/>
+        <service android:name=".CommonService"/>
     </application>
 
 </manifest>

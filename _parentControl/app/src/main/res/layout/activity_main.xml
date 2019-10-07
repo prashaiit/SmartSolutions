@@ -68,21 +68,8 @@
             android:textAllCaps="false"
             android:background="@drawable/buttonshape"
             android:textColor="@color/colorforeground"
-            android:onClick="TriggerTimerActionActivity2"/>
+            android:onClick="TriggerAlertActiviy"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Reminders"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Reminders"
-            android:textAllCaps="false"
-            android:background="@drawable/buttonshape"
-            android:textColor="@color/colorforeground"
-            android:onClick="TriggerTimerActionActivity2"/>
     </LinearLayout>
 
 

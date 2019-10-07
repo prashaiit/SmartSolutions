@@ -40,7 +40,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TriggerSmsActionActivity(View view){
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        databaseHelper.DeleteAll();
+        Intent intent = new Intent(MainActivity.this, SmsActionActivity.class);
+        startActivity(intent);
+    }
+
+    public void TriggerAlertActiviy(View view) {
+        Intent intent = new Intent(MainActivity.this, AlertActivity.class);
+        startActivity(intent);
     }
 }
