@@ -1,6 +1,6 @@
 package com.praskum.parentcontrol;
 
-public class TimerActionDataModel {
+public class DatabaseDataModel {
     public int AlarmId;
     public boolean LockScreen;
     public boolean SwitchToHome;

@@ -7,5 +7,5 @@
     <color name="colorforeground">#FFFFFF</color>
     <color name="mediavolumegreen">#00FF00</color>
     <color name="mediavolumered">#FF0000</color>
-
+    <color name="textdisabled">#808080</color>
 </resources>

@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class AlarmActionHelper {
 
-    public boolean CreateAlarm(Context context, int requestCode, int hours, int minutes, int seconds) {
+    public boolean CreateAlarm(Context context, int requestCode, int hours, int minutes, int seconds, int intentExtraValue) {
         if (hours == 0 && minutes == 0 && seconds == 0) {
             return false;
         }
@@ -28,6 +28,11 @@ public class AlarmActionHelper {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(Constants.TIMERINTENTACTION);
         intent.putExtra("id", requestCode);
+
+        if (intentExtraValue != -1) {
+            intent.putExtra("value", intentExtraValue);
+        }
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

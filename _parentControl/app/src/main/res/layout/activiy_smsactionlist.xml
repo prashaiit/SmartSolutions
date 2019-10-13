@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorbackground"
+    android:paddingTop="@dimen/labels_margin"
+    android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+    android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+                android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/timeroptionheight"
+                    android:layout_marginTop="@dimen/margintopbottomToggleButton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="Lock the Screen"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorforeground"
+                        android:textSize="@dimen/labels_textsize" />
+
+                    <ToggleButton
+                        android:id="@+id/lockScreen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/togglebuttonshape"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorforeground" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
+                    android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorforeground"
+                    android:textSize="@dimen/labels_textsize"
+                    android:text="Lock the Screen with an Sms with a keyword 'lock'"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+                android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/timeroptionheight"
+                    android:layout_marginTop="@dimen/margintopbottomToggleButton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="Child Mode"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorforeground"
+                        android:textSize="@dimen/labels_textsize" />
+
+                    <ToggleButton
+                        android:id="@+id/childMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/togglebuttonshape"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorforeground" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
+                    android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorforeground"
+                    android:textSize="@dimen/labels_textsize"
+                    android:text="Enable Child mode with an Sms with a keyword 'chmod'"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/childmodesettingslayout"
+                android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
+                android:layout_marginRight="@dimen/smsactionlist_childmargingleftright2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/components_settings"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+/</LinearLayout>

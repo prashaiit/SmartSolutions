@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseActionHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "parentcontrol.db";
     private static final String TABLE_NAME = "timerActionsTable";
     private static final String ALARMID = "AlarmId";
@@ -19,9 +19,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String BRIGHTNESS = "Brightness";
     private static final String SCREENOFF = "ScreenOff";
     private static final String COMMASPACE = ", ";
+    private Context context;
 
-    public DatabaseHelper(Context context) {
+    public DatabaseActionHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+
+        this.context = context;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean InsertData(TimerActionDataModel data) {
+    public boolean InsertData(DatabaseDataModel data) {
         Cursor c = this.ReadData(data.AlarmId);
         if (c != null && c.getCount() > 0) {
             c.close();
@@ -55,13 +58,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(ALARMID, data.AlarmId);
-        values.put(LOCK, data.LockScreen ? 1 : 0);
+        values.put(LOCK, data.LockScreen ? ((PermissionChecker.GetDevPolMgrWithAdmnPerm(this.context) != null) ? 1 : 0) : 0);
         values.put(SWITCH2HOME, data.SwitchToHome ? 1 : 0);
         values.put(WIFI, data.WifiMode ? 1 : 0);
         values.put(SILENT, data.SilentMode ? 1 : 0);
         values.put(MEDIAVOLUME, data.MediaVolume);
-        values.put(BRIGHTNESS, data.Brightness);
-        values.put(SCREENOFF, data.ScreenOff ? 1 : 0);
+        values.put(BRIGHTNESS, (data.Brightness != -1 && PermissionChecker.CheckPermissionForWriteSettings(this.context)) ? data.Brightness : -1);
+        values.put(SCREENOFF, data.ScreenOff ? PermissionChecker.CheckPermissionForWriteSettings(this.context) ? 1 : 0 : 0);
 
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert(TABLE_NAME, null, values);

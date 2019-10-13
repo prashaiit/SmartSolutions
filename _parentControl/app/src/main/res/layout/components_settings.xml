@@ -10,7 +10,7 @@
         android:layout_below="@+id/settimerlayout"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="@dimen/labels_margin"
+
         android:orientation="vertical">
 
         <RelativeLayout
@@ -21,12 +21,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/turnoffscreenPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="Turn Off Screen"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <ToggleButton
@@ -34,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:background="@drawable/togglebuttonshape"
                 android:textAllCaps="false"
                 android:textColor="@color/colorforeground" />
@@ -48,12 +48,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/switchtohomePanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="Switch to Home"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <ToggleButton
@@ -61,13 +62,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:background="@drawable/togglebuttonshape"
                 android:textAllCaps="false"
                 android:textColor="@color/colorforeground" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/lockPanel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/timeroptionheight"
             android:layout_marginTop="@dimen/margintopbottomToggleButton"
@@ -75,12 +76,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/lockTextPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="Lock the Screen"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <ToggleButton
@@ -88,7 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:background="@drawable/togglebuttonshape"
                 android:textAllCaps="false"
                 android:textColor="@color/colorforeground" />
@@ -102,12 +103,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/wifiPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="Turn Off Wi-Fi"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <ToggleButton
@@ -115,7 +117,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:background="@drawable/togglebuttonshape"
                 android:textAllCaps="false"
                 android:textColor="@color/colorforeground" />
@@ -130,12 +131,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/silentmodePanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="Turn On Silent Mode"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <ToggleButton
@@ -143,7 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:background="@drawable/togglebuttonshape"
                 android:textAllCaps="false"
                 android:textColor="@color/colorforeground" />
@@ -157,21 +158,20 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/mediavolumetextview"
+                android:id="@+id/mediavolumePanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="5dp"
                 android:text="Media Volume"
                 android:textAllCaps="false"
-                android:textColor="@color/colorforeground"
+                android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
 
             <SeekBar
                 android:id="@+id/mediavolume"
-                android:layout_below="@+id/mediavolumetextview"
+                android:layout_below="@+id/mediavolumePanel"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/seekbarbackground"
@@ -198,12 +198,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/brightnessPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:text="Brightness"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorforeground"
+                    android:textColor="@drawable/textviewcolor"
                     android:textSize="@dimen/labels_textsize" />
 
                 <ToggleButton
@@ -211,7 +212,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/marginrightToggleButton"
                     android:background="@drawable/togglebuttonshape"
                     android:textAllCaps="false"
                     android:textColor="@color/colorforeground" />
@@ -222,7 +222,6 @@
                 android:id="@+id/brightness"
                 android:layout_below="@+id/brightnesslayout"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/marginrightToggleButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/seekbarbackground"

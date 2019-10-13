@@ -1,17 +1,13 @@
 package com.praskum.parentcontrol;
 
-import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +30,10 @@ public class TimerActionActivity extends AppCompatActivity {
     private Button createAction, deleteAtion;
     private ToggleButton lock, switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen;
     private SeekBar mediaVolume, brightness;
+    private static final int ADMIN_INTENT = 1;
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mComponentName;
+    private boolean adminPermissionJustProvided = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,40 +54,38 @@ public class TimerActionActivity extends AppCompatActivity {
         brightnessWritePermission = (ToggleButton) findViewById(R.id.brightnesswritepermissions);
         turnOffScreen = (ToggleButton) findViewById(R.id.turnoffscreen);
 
-        lock.setOnClickListener(new View.OnClickListener() {
+        lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PermissionChecker.PromptForDeviceAdminPermission(TimerActionActivity.this);
+                }
+
                 UpdateToggleButton(lock);
             }
         });
 
-        switch2Home.setOnClickListener(new View.OnClickListener() {
+        switch2Home.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 UpdateToggleButton(switch2Home);
             }
         });
 
-        silentMode.setOnClickListener(new View.OnClickListener() {
+        silentMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 UpdateToggleButton(silentMode);
             }
         });
 
-        wifi.setOnClickListener(new View.OnClickListener() {
+        wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 UpdateToggleButton(wifi);
             }
         });
 
-        brightnessWritePermission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdateToggleButton(brightnessWritePermission);
-            }
-        });
         mediaVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -131,6 +129,7 @@ public class TimerActionActivity extends AppCompatActivity {
                     PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501);
                 }
 
+                UpdateToggleButton(brightnessWritePermission);
                 UpdateBrightnessControl();
             }
         });
@@ -165,7 +164,31 @@ public class TimerActionActivity extends AppCompatActivity {
         Log.i("Addtimer", "smsaction resume");
         UpdateTextView();
 
-        if (alarmId == -1) {
+        int isLockEnabled = 0;
+
+        if (alarmId != -1) {
+            createAction.setVisibility(View.INVISIBLE);
+            deleteAtion.setVisibility(VISIBLE);
+
+            DatabaseActionHelper dbHelper = new DatabaseActionHelper(getApplicationContext());
+            Log.i("TimerAction", "Reading the data for " + alarmId);
+            Cursor c = dbHelper.ReadData(alarmId);
+
+            if (c != null && c.getCount() > 0) {
+                isLockEnabled = c.getInt(c.getColumnIndex("Lock"));
+                switch2Home.setChecked(c.getInt(c.getColumnIndex("SwitchToHomeScreen")) == 1);
+                wifi.setChecked(c.getInt(c.getColumnIndex("Wifi")) == 1);
+                silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
+                turnOffScreen.setChecked(c.getInt(c.getColumnIndex("ScreenOff")) == 1);
+                mediaVolume.setProgress(c.getInt(c.getColumnIndex("MediaVolume")));
+                int brgness = c.getInt(c.getColumnIndex("Brightness"));
+                if (brgness != -1) {
+                    brightness.setProgress(brgness);
+                }
+                Log.i("timeraction", "values read = " + c.getInt(1) + " , " + c.getInt(2));
+            }
+        }
+        else {
             createAction.setVisibility(VISIBLE);
             deleteAtion.setVisibility(View.INVISIBLE);
 
@@ -176,19 +199,8 @@ public class TimerActionActivity extends AppCompatActivity {
                 createAction.setEnabled(true);
             }
         }
-        else {
-            createAction.setVisibility(View.INVISIBLE);
-            deleteAtion.setVisibility(VISIBLE);
 
-            DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-            Log.i("TimerAction", "Reading the data for " + alarmId);
-            Cursor c = dbHelper.ReadData(alarmId);
-            lock.setChecked(c.getInt(c.getColumnIndex("Lock")) == 1);
-            switch2Home.setChecked(c.getInt(c.getColumnIndex("SwitchToHomeScreen")) == 1);
-            wifi.setChecked(c.getInt(c.getColumnIndex("Wifi")) == 1);
-            silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
-            Log.i("timeraction", "values read = " + c.getInt(1) + " , " + c.getInt(2));
-        }
+        lock.setChecked((isLockEnabled == 1 && PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null) || adminPermissionJustProvided);
 
         UpdateToggleButton(lock);
         UpdateToggleButton(wifi);
@@ -219,7 +231,7 @@ public class TimerActionActivity extends AppCompatActivity {
         Random random = new Random();
         int randomnumber = random.nextInt(1000);
 
-        TimerActionDataModel timerActionDataModel = new TimerActionDataModel();
+        DatabaseDataModel timerActionDataModel = new DatabaseDataModel();
         timerActionDataModel.AlarmId = randomnumber;
         timerActionDataModel.LockScreen = lock.isChecked();
         timerActionDataModel.SwitchToHome = switch2Home.isChecked();
@@ -236,7 +248,7 @@ public class TimerActionActivity extends AppCompatActivity {
 
         timerActionDataModel.ScreenOff = turnOffScreen.isChecked();
 
-        DatabaseHelper dbhelper = new DatabaseHelper(getApplicationContext());
+        DatabaseActionHelper dbhelper = new DatabaseActionHelper(getApplicationContext());
         boolean isSuccess = dbhelper.InsertData(timerActionDataModel);
 
         int i = 0;
@@ -248,17 +260,17 @@ public class TimerActionActivity extends AppCompatActivity {
         }
 
         if (isSuccess) {
+            // Register the Common Service
+            // Intent serviceIntent = new Intent(this, CommonService.class);
+            // startService(serviceIntent);
+
             AlarmActionHelper helper = new AlarmActionHelper();
             int h = Integer.parseInt(hour.getText().toString());
             int m = Integer.parseInt(min.getText().toString());
             int s = Integer.parseInt(sec.getText().toString());
-            helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s);
+            helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s, -1);
 
             Toast.makeText(getApplicationContext(), "Timer Action Created", Toast.LENGTH_SHORT).show();
-
-            // Register the Common Service
-            Intent serviceIntent = new Intent(this, CommonService.class);
-            startService(serviceIntent);
 
             this.finish();
         }
@@ -268,7 +280,7 @@ public class TimerActionActivity extends AppCompatActivity {
     }
 
     public void DeleteTimerAction(View view){
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        DatabaseActionHelper dbHelper = new DatabaseActionHelper(getApplicationContext());
         dbHelper.DeleteData(alarmId);
 
         AlarmActionHelper actionHelper = new AlarmActionHelper();
@@ -282,11 +294,21 @@ public class TimerActionActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("addtimer", "OnActivityResult");
         Log.i("addtimer", "req = " + requestCode + " resCode " + resultCode);
+
+        value = 0;
+
         if (requestCode == 6 && resultCode == 5) {
             value = data.getIntExtra("timer", 0);
         }
-        else {
-            value = 0;
+
+        if (requestCode == Constants.REQ_CODE_ADMIN_PERM) {
+            if (resultCode == RESULT_OK) {
+                adminPermissionJustProvided = true;
+                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Device Administrator Process Cancelled", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -331,7 +353,7 @@ public class TimerActionActivity extends AppCompatActivity {
         if (currentBrightness != -1) {
             brightness.setProgress(currentBrightness);
 
-            boolean hasPermission = PermissionChecker.CheckPermissionForWriteSettings(this);
+            boolean hasPermission = PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext());
             brightness.setEnabled(hasPermission && brightnessWritePermission.isChecked());
             brightness.setVisibility(VISIBLE);
 
@@ -347,7 +369,7 @@ public class TimerActionActivity extends AppCompatActivity {
     }
 
     public void UpdateScreenTurnOffControl() {
-        if (!PermissionChecker.CheckPermissionForWriteSettings(this)) {
+        if (!PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext())) {
             turnOffScreen.setChecked(false);
         }
     }

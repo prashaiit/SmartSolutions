@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TriggerTimerActionActivity2(View view) {
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        DatabaseActionHelper dbHelper = new DatabaseActionHelper(getApplicationContext());
 
         Cursor c = dbHelper.ReadAllData();
         try {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TriggerSmsActionActivity(View view){
-        Intent intent = new Intent(MainActivity.this, SmsActionActivity.class);
+        Intent intent = new Intent(MainActivity.this, SmsActionList.class);
         startActivity(intent);
     }
 
