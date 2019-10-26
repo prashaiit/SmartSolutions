@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorbackground">#000000</color>
-    <color name="colorforeground">#FFFFFF</color>
+    <color name="colorbackground">#FFFFFF</color>
+    <color name="colorforeground">#000000</color>
     <color name="mediavolumegreen">#00FF00</color>
     <color name="mediavolumered">#FF0000</color>
     <color name="textdisabled">#808080</color>

@@ -30,7 +30,7 @@
         <activity android:name=".AddTimerActivity"/>
         <activity android:name=".AlertActivity"/>
         <activity android:name=".SmsActionList"/>
-        <activity android:name=".LockActivity"/>
+
         <receiver android:name=".AlarmReceiver" android:enabled="true"/>
         <receiver android:name=".SmsListener">
             <intent-filter android:priority="1000">

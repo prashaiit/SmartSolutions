@@ -30,9 +30,13 @@ public class SmsListener extends BroadcastReceiver {
 
 
                         if (msgBody.equalsIgnoreCase("lock")) {
-                            Intent intent1 = new Intent(context, LockActivity.class);
-                            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent1);
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    ActionRunner actionRunner = new ActionRunner();
+                                    actionRunner.ApplyLockAction(context);
+                                }
+                            }, 10000);
                         }
                         else if (msgBody.equalsIgnoreCase("chmod")) {
                             DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
