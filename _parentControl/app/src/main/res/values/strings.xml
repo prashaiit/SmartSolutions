@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Parental Control</string>
+    <string name="app_name">Kid Safe Mode</string>
     <string name="sms_text_header">Register a Keyword and a set of Actions from below list. Whenever a message with registered Keyword is received from any of the parents mobile number, all the actions registered with that keyword will be executed</string>
+    <string name="settings_sub_title">Settings</string>
+    <string name="sms_actions">Sms Actions</string>
+    <string name="timer_actions">Timer Actions</string>
 </resources>

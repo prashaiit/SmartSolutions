@@ -11,6 +11,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +29,7 @@
         </activity>
         <activity android:name=".TimerActionActivity"/>
         <activity android:name=".AddTimerActivity"/>
-        <activity android:name=".AlertActivity"/>
+        <activity android:name=".SettingsActivity"/>
         <activity android:name=".SmsActionList"/>
 
         <receiver android:name=".AlarmReceiver" android:enabled="true"/>

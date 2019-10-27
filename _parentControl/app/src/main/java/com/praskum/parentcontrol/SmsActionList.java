@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -84,7 +86,14 @@ public class SmsActionList extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.tilebackground)));
+        actionBar.setTitle(R.string.sms_actions);
+        actionBar.show();
+
+        Window window = this.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.tilebackground));
+        }
     }
 
     @Override
@@ -154,11 +163,11 @@ public class SmsActionList extends AppCompatActivity {
     protected void UpdateToggleButton(ToggleButton toggleButton) {
         if (toggleButton.isChecked()) {
             toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
-            toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
+            //toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
         }
         else {
             toggleButton.setBackgroundResource(R.drawable.buttonshape);
-            toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
+            //toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
         }
     }
 

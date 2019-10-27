@@ -2,9 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorbackground"
-    android:paddingTop="@dimen/labels_margin"
-    android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
-    android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,6 +10,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+            android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
+            android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -47,7 +47,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@drawable/togglebuttonshape"
                         android:textAllCaps="false"
-                        android:textColor="@color/colorforeground" />
+                        android:textColor="@color/tileforeground" />
                 </RelativeLayout>
 
                 <TextView
@@ -91,7 +91,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@drawable/togglebuttonshape"
                         android:textAllCaps="false"
-                        android:textColor="@color/colorforeground" />
+                        android:textColor="@color/tileforeground" />
                 </RelativeLayout>
 
                 <TextView

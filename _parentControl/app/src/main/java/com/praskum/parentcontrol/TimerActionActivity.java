@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -145,16 +149,27 @@ public class TimerActionActivity extends AppCompatActivity {
         });
 
         alarmId = getIntent().getIntExtra("AlarmId", -1);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.tilebackground)));
+        actionBar.setTitle(R.string.timer_actions);
+        actionBar.show();
+
+        Window window = this.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.tilebackground));
+        }
     }
 
     protected void UpdateToggleButton(ToggleButton toggleButton) {
         if (toggleButton.isChecked()) {
             toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
-            toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
+            //toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
         }
         else {
             toggleButton.setBackgroundResource(R.drawable.buttonshape);
-            toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
+            //toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
         }
     }
 
@@ -331,8 +346,8 @@ public class TimerActionActivity extends AppCompatActivity {
             sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.SRC_ATOP);
         }
         else {
-            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.MULTIPLY);
-            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.SRC_ATOP);
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.SRC_ATOP);
         }
     }
 
@@ -342,8 +357,8 @@ public class TimerActionActivity extends AppCompatActivity {
             sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.SRC_ATOP);
         }
         else {
-            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.MULTIPLY);
-            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumegreen), PorterDuff.Mode.SRC_ATOP);
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.SRC_ATOP);
         }
     }
 
@@ -372,5 +387,11 @@ public class TimerActionActivity extends AppCompatActivity {
         if (!PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext())) {
             turnOffScreen.setChecked(false);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

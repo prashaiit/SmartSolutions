@@ -9,4 +9,7 @@ public class Constants {
     public static final int RESET_SCREEN_OFF_TIMEOUT_ALARMID = 4444;
 
     public static final int REQ_CODE_ADMIN_PERM = 111;
+
+
+    public static final int REQ_CODE_CONTACT_PICK = 1050;
 }
