@@ -55,13 +55,17 @@ public class SmsListener extends BroadcastReceiver {
                         String msgBody = msgs[i].getMessageBody().toLowerCase();
 
                         if (msgBody.equalsIgnoreCase("lock")) {
-                            new Timer().schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    ActionRunner actionRunner = new ActionRunner();
-                                    actionRunner.ApplyLockAction(context);
-                                }
-                            }, 10000);
+                            DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
+                            Cursor c = dbHelper.ReadData(Constants.LOCKSCREEN_SMS_ACTION_ALARMID);
+                            if (c != null && c.getCount() > 0) {
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        ActionRunner actionRunner = new ActionRunner();
+                                        actionRunner.ApplyLockAction(context);
+                                    }
+                                }, 10000);
+                            }
                         }
                         else if (msgBody.equalsIgnoreCase("chmod")) {
                             DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);

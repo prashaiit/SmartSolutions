@@ -8,7 +8,7 @@
     <dimen name="marginleftright">30dp</dimen>
     <dimen name="marginrightToggleButton">30dp</dimen>
     <dimen name="margintopbottomToggleButton">30dp</dimen>
-    <dimen name="labels_textsize">15sp</dimen>
+    <dimen name="labels_textsize">15dp</dimen>
     <dimen name="labels_margin">18dp</dimen>
     <dimen name="togglebuttonheight">6dp</dimen>
     <dimen name="togglebuttonwidth">3dp</dimen>

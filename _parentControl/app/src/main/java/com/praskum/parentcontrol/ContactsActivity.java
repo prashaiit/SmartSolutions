@@ -2,31 +2,26 @@ package com.praskum.parentcontrol;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class SettingsActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
     private LinkedHashMap<String, String> contactsSelected = new LinkedHashMap<>();
     private LinearLayout contactsView;
     private boolean isActivityLaunched = true;
@@ -36,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_contacts);
 
         contactsView = (LinearLayout) findViewById(R.id.contactsView);
 
@@ -169,15 +164,17 @@ public class SettingsActivity extends AppCompatActivity {
             textView.setText("   No contacts added   ");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                textView.setBackground(getDrawable(R.drawable.textviewborder));
+                //textView.setBackground(getDrawable(R.drawable.textviewborder));
             }
-            textView.setTextColor(getResources().getColor(R.color.tileforeground));
-            textView.setBackgroundColor(getResources().getColor(R.color.tilebackground));
+            textView.setTextColor(getResources().getColor(R.color.colorforeground));
+            textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+
+            //textView.setBackgroundColor(getResources().getColor(R.color.tilebackground));
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.bottomMargin = 20;
-            params.topMargin = 30;
-            params.gravity = 1;
+            params.topMargin = 200;
+            params.gravity = LinearLayout.VERTICAL;
 
             contactsView.addView(textView, params);
         }
@@ -212,6 +209,6 @@ public class SettingsActivity extends AppCompatActivity {
             db.InsertContacts(entry.getValue(), entry.getKey());
         }
 
-        Toast.makeText(SettingsActivity.this, "Contacts updated successfully", Toast.LENGTH_SHORT);
+        Toast.makeText(ContactsActivity.this, "Contacts updated successfully", Toast.LENGTH_SHORT);
     }
 }
