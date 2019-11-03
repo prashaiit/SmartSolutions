@@ -26,9 +26,9 @@ public class PermissionChecker {
         return permission;
     }
 
-    public static void PromptForWriteSettingPermission(Activity context, int reqCode) {
+    public static void PromptForWriteSettingPermission(Activity context, int reqCode, boolean force) {
 
-        if (CheckPermissionForWriteSettings(context.getApplicationContext())) {
+        if (!force && CheckPermissionForWriteSettings(context.getApplicationContext())) {
             return;
         }
 
@@ -65,5 +65,23 @@ public class PermissionChecker {
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Administrator description");
             context.startActivityForResult(intent, Constants.REQ_CODE_ADMIN_PERM);
         }
+    }
+
+    public static void PromtForReadSmsPermission(Activity context, boolean force) {
+        int GET_MY_PERMISSION = 1;
+
+        if(!force && ContextCompat.checkSelfPermission(context,Manifest.permission.READ_SMS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        ActivityCompat.requestPermissions(context,
+                new String[]{Manifest.permission.READ_SMS},GET_MY_PERMISSION);
+
+       /* if(ActivityCompat.shouldShowRequestPermissionRationale(context,
+                Manifest.permission.READ_SMS)){
+            /* do nothing*/
+       // }
+
     }
 }

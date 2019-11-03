@@ -38,8 +38,7 @@ public class ContactsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.tilebackground)));
-        actionBar.setTitle(R.string.settings_sub_title);
-        actionBar.setTitle(R.string.settings_sub_title);
+        actionBar.setTitle(R.string.contacts_title);
         actionBar.show();
 
         Window window = this.getWindow();

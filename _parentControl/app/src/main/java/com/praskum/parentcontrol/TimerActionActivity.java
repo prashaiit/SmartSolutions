@@ -130,7 +130,7 @@ public class TimerActionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501);
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501, false);
                 }
 
                 UpdateToggleButton(brightnessWritePermission);
@@ -142,7 +142,7 @@ public class TimerActionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501);
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501, false);
                 }
                 UpdateToggleButton(turnOffScreen);
             }

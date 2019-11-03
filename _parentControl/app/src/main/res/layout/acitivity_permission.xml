@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+    android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
+    android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+    android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright"
+    android:layout_marginRight="@dimen/smsactionlist_childmargingleftright"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/timeroptionheight"
+        android:layout_marginTop="@dimen/margintopbottomToggleButton"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Read Sms"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"
+            android:textSize="@dimen/labels_textsize" />
+
+        <Button
+            android:id="@+id/readSmsPerm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/togglebuttonshape"
+            android:text="Allow"
+            android:textAllCaps="false"
+            android:textColor="@color/tileforeground"
+            android:onClick="TriggerSmsPermissionActivity"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/timeroptionheight"
+        android:layout_marginTop="@dimen/margintopbottomToggleButton"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Modify System Settings"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"
+            android:textSize="@dimen/labels_textsize" />
+
+        <Button
+            android:id="@+id/modifySystemSettingsPerm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/togglebuttonshape"
+            android:text="Allow"
+            android:textAllCaps="false"
+            android:textColor="@color/tileforeground"
+            android:onClick="TriggerModifySystemSettingsPermission"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/timeroptionheight"
+        android:layout_marginTop="@dimen/margintopbottomToggleButton"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Activate Device Admin"
+            android:textAllCaps="false"
+            android:textColor="@color/colorforeground"
+            android:textSize="@dimen/labels_textsize" />
+
+        <Button
+            android:id="@+id/activateDeviceAdminPerm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/togglebuttonshape"
+            android:text="Allow"
+            android:textAllCaps="false"
+            android:textColor="@color/tileforeground"
+            android:onClick="ActivateDeviceAdminPerm"/>
+    </RelativeLayout>
+</LinearLayout>

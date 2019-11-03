@@ -59,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void TriggerSettingsActivity(View view) {
+    public void TriggerContactsActivity(View view) {
         Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+        startActivity(intent);
+    }
+
+    public void TriggerPermissionActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, PermissionActivity.class);
         startActivity(intent);
     }
 }

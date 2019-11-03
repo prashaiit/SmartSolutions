@@ -31,7 +31,7 @@
         <activity android:name=".AddTimerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ContactsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SmsActionList" android:screenOrientation="portrait"/>
-
+        <activity android:name=".PermissionActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".AlarmReceiver" android:enabled="true"/>
         <receiver android:name=".SmsListener">
             <intent-filter android:priority="1000">
