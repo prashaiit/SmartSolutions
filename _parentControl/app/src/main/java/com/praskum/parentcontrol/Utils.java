@@ -44,4 +44,15 @@ public class Utils {
             return -1;
         }
     }
+
+    public String getNormalizedPhoneNumber(String phoneNo) {
+        String nphoneNo = phoneNo.replaceAll("\\s+","");
+        nphoneNo = nphoneNo.replace("+91", "");
+
+        if (nphoneNo.startsWith("0") && nphoneNo.length() == 11) {
+            nphoneNo = nphoneNo.substring(1);
+        }
+
+        return nphoneNo;
+    }
 }

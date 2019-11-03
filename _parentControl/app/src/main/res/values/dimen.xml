@@ -20,4 +20,5 @@
     <dimen name="smsactionlist_childmargintopbottom">4dp</dimen>
     <dimen name="smsactionlist_childmargingleftright2">10dp</dimen>
     <dimen name="smsactionlist_childmargintopbottom2">10dp</dimen>
+    <dimen name="contact_string_height">30dp</dimen>
 </resources>

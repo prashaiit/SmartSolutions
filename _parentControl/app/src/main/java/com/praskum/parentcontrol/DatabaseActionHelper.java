@@ -10,6 +10,7 @@ import android.util.Log;
 public class DatabaseActionHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "parentcontrol.db";
     private static final String TABLE_NAME = "timerActionsTable";
+    private static final String CONTACTS_TABLE_NAME = "contactsTable";
     private static final String ALARMID = "AlarmId";
     private static final String LOCK = "Lock";
     private static final String SWITCH2HOME = "SwitchToHomeScreen";
@@ -39,11 +40,34 @@ public class DatabaseActionHelper extends SQLiteOpenHelper {
                 "Brightness INTEGER DEFAULT -1," +
                 "ScreenOff INTEGER DEFAULT 0" +
                 ")");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + CONTACTS_TABLE_NAME +" (" +
+                "Id INTEGER PRIMARY KEY, " +
+                "Name TEXT," +
+                "Mobile TEXT" +
+                ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public boolean InsertContacts(String name, String mobile) {
+        ContentValues values = new ContentValues();
+        values.put("Name", name);
+        values.put("Mobile", mobile);
+
+        SQLiteDatabase db = getWritableDatabase();
+        long result = db.insert(CONTACTS_TABLE_NAME, null, values);
+
+        if (result == -1) {
+            return false;
+        }
+
+        Log.i("db", "name " + name + ":  Mobile " + mobile);
+        db.close();
+        return true;
     }
 
     public boolean InsertData(DatabaseDataModel data) {
@@ -135,9 +159,31 @@ public class DatabaseActionHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public Cursor ReadAllContacts() {
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            Cursor c =  db.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME , null);
+            Log.i("db", "No of Records Found = " + c.getCount());
+            db.close();
+            return c;
+        }
+        catch (Exception e) {
+            Log.i("db", "ReadAllData failed");
+        }
+
+        db.close();
+        return null;
+    }
+
     public void DeleteAll() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
+        db.close();
+    }
+
+    public void DeleteAllContacts() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(CONTACTS_TABLE_NAME, null, null);
         db.close();
     }
 }

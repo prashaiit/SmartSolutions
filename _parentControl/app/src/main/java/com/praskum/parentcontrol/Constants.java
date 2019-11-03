@@ -12,4 +12,5 @@ public class Constants {
 
 
     public static final int REQ_CODE_CONTACT_PICK = 1050;
+
 }

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_marginTop="@dimen/margintopbottomToggleButton"
                 android:orientation="vertical"
                 android:background="@drawable/layoutborder"
@@ -26,9 +26,11 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
+                    android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/timeroptionheight"
                     android:background="@color/tilebackground"
+
                     android:orientation="horizontal">
 
                     <TextView
@@ -41,18 +43,11 @@
                         android:textColor="@color/tileforeground"
                         android:textSize="@dimen/labels_textsize" />
 
-                    <Button
-                        android:id="@+id/lockScreen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/togglebuttonshape"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorforeground"
-                        android:onClick="TriggerContactsActivity"/>
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/headerText"
+                    android:layout_below="@+id/header"
                     android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
                     android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
                     android:layout_width="match_parent"
@@ -62,9 +57,11 @@
                     android:text="Authorized Contacts who can send Sms Actions"/>
 
                 <LinearLayout
+                    android:layout_below="@+id/headerText"
                     android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
                     android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
                     android:layout_marginRight="@dimen/smsactionlist_childmargingleftright2"
+                    android:layout_marginBottom="@dimen/smsactionlist_childmargintopbottom2"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,7 +70,23 @@
 
 
                 </LinearLayout>
-            </LinearLayout>
+
+                <Button
+                    android:layout_below="@+id/contactsView"
+                    android:text="Add Contact"
+                    android:id="@+id/lockScreen"
+                    android:paddingHorizontal="@dimen/labels_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/togglebuttonshape"
+                    android:textAllCaps="false"
+                    android:textColor="@color/tileforeground"
+                    android:layout_marginBottom="@dimen/labels_margin"
+                    android:layout_marginRight="@dimen/labels_margin"
+                    android:onClick="TriggerContactsActivity"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

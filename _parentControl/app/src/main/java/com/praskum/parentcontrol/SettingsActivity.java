@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -27,6 +29,8 @@ import java.util.Map;
 public class SettingsActivity extends AppCompatActivity {
     private LinkedHashMap<String, String> contactsSelected = new LinkedHashMap<>();
     private LinearLayout contactsView;
+    private boolean isActivityLaunched = true;
+    private boolean updateContactDatabase = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,31 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (isActivityLaunched) {
+            DatabaseActionHelper db = new DatabaseActionHelper(getApplicationContext());
+            Cursor c = db.ReadAllContacts();
+            if (c != null && c.getCount() > 0) {
+                try {
+                    if (c.moveToFirst()) {
+                        do {
+                            String name = c.getString(c.getColumnIndex("Name"));
+                            String mobile = c.getString(c.getColumnIndex("Mobile"));
 
+                            if (!contactsSelected.containsKey(mobile)) {
+                                contactsSelected.put(mobile, name);
+                            }
+                        }
+                        while (c.moveToNext());
+                    }
+                } finally {
+                    c.close();
+                }
+            }
+
+            isActivityLaunched = false;
+        }
+
+        UpdateSelectedContactsView();
     }
 
     public void TriggerContactsActivity(View view) {
@@ -77,21 +105,18 @@ public class SettingsActivity extends AppCompatActivity {
                 int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 name = cursor.getString(nameIndex);
                 phoneNo = cursor.getString(phoneIndex);
-                phoneNo = phoneNo.replaceAll("\\s+","");
-                phoneNo = phoneNo.replace("+91", "");
-
-                if (phoneNo.startsWith("0") && phoneNo.length() == 11) {
-                    phoneNo = phoneNo.substring(1);
-                }
+                Utils utils = new Utils();
+                phoneNo = utils.getNormalizedPhoneNumber(phoneNo);
 
                 if (!contactsSelected.containsKey(phoneNo)) {
                     contactsSelected.put(phoneNo, name);
+                    updateContactDatabase = true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            UpdateSelectedContactsView();
+            //UpdateSelectedContactsView();
         }
     }
 
@@ -104,6 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
                 textView.setText(entry.getValue() + " - " + entry.getKey());
                 textView.setBackgroundColor(getResources().getColor(R.color.tilebackground));
                 textView.setTextColor(getResources().getColor(R.color.tileforeground));
+                textView.setPadding(40, 0, 0, 0);
 
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 //params.setLayoutDirection(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -111,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 RelativeLayout layout = new RelativeLayout(getApplicationContext());
                 layout.addView(textView, params);
-                final Button b = new Button(getApplicationContext());
+                final TextView b = new TextView(getApplicationContext());
                 b.setText("X");
                 b.setTextColor(getResources().getColor(R.color.tileforeground));
                 b.setBackgroundColor(getResources().getColor(R.color.tilebackground));
@@ -119,18 +145,21 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         contactsSelected.remove(entry.getKey());
+                        updateContactDatabase = true;
                         UpdateSelectedContactsView();
                     }
                 });
 
-                RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, (int) getResources().getDimension(R.dimen.contact_string_height));
                 // params2.setLayoutDirection(RelativeLayout.ALIGN_PARENT_RIGHT);
                 params2.addRule(RelativeLayout.ALIGN_PARENT_END);
+                b.setPadding(0, 0, 40, 0);
+                //params2.addRule(RelativeLayout.TEXT_ALIGNMENT_GRAVITY, RelativeLayout.ALIGN_TOP);
                 layout.addView(b, params2);
 
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layout.setBackgroundResource(R.drawable.textviewborder);
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.contact_string_height));
                 layout.setBackgroundColor(getResources().getColor(R.color.tilebackground));
+                layout.setPadding(0, 10, 0, 10);
                 param.bottomMargin = 20;
                 contactsView.addView(layout, param);
             }
@@ -162,6 +191,10 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+        if (updateContactDatabase) {
+            InsertContacts();
+        }
+
         this.finish();
     }
 
@@ -169,5 +202,16 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void InsertContacts() {
+        DatabaseActionHelper db = new DatabaseActionHelper(getApplicationContext());
+        db.DeleteAllContacts();
+
+        for (final Map.Entry<String, String> entry : contactsSelected.entrySet()) {
+            db.InsertContacts(entry.getValue(), entry.getKey());
+        }
+
+        Toast.makeText(SettingsActivity.this, "Contacts updated successfully", Toast.LENGTH_SHORT);
     }
 }

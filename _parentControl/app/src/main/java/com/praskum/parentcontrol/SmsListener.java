@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,13 +22,37 @@ public class SmsListener extends BroadcastReceiver {
             if (bundle != null) {
                 //---retrieve the SMS message received---
                 try {
+                    DatabaseActionHelper db = new DatabaseActionHelper(context);
+                    Cursor cursor = db.ReadAllContacts();
+                    HashSet<String> validMobileNumbers = new HashSet<>();
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        if (cursor.moveToFirst()) {
+                            do {
+                                String mobile = cursor.getString(cursor.getColumnIndex("Mobile"));
+                                if (!validMobileNumbers.contains(mobile)) {
+                                    validMobileNumbers.add(mobile);
+                                }
+                            }
+                            while (cursor.moveToNext());
+                        }
+
+                        cursor.close();
+                    }
+
                     Object[] pdus = (Object[]) bundle.get("pdus");
                     msgs = new SmsMessage[pdus.length];
                     for (int i = 0; i < msgs.length; i++) {
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         msg_from = msgs[i].getOriginatingAddress();
-                        String msgBody = msgs[i].getMessageBody().toLowerCase();
+                        Utils utils = new Utils();
+                        String nMobile = utils.getNormalizedPhoneNumber(msg_from);
 
+                        if (!validMobileNumbers.contains(nMobile)) {
+                            continue;
+                        }
+
+                        String msgBody = msgs[i].getMessageBody().toLowerCase();
 
                         if (msgBody.equalsIgnoreCase("lock")) {
                             new Timer().schedule(new TimerTask() {
