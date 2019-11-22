@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 public class PermissionActivity extends AppCompatActivity {
-    private Button sms, writeSettings, admin;
+    private ToggleButton sms, writeSettings, admin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +35,30 @@ public class PermissionActivity extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.tilebackground));
         }
 
-        sms = (Button) findViewById(R.id.readSmsPerm);
-        writeSettings = (Button) findViewById(R.id.modifySystemSettingsPerm);
-        admin = (Button) findViewById(R.id.activateDeviceAdminPerm);
+        sms = (ToggleButton) findViewById(R.id.readSmsPerm);
+        writeSettings = (ToggleButton) findViewById(R.id.modifySystemSettingsPerm);
+        admin = (ToggleButton) findViewById(R.id.activateDeviceAdminPerm);
+
+        sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TriggerSmsPermissionActivity();
+            }
+        });
+
+        writeSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TriggerModifySystemSettingsPermission();
+            }
+        });
+
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivateDeviceAdminPerm();
+            }
+        });
     }
 
     @Override
@@ -56,15 +79,22 @@ public class PermissionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (PermissionChecker.CheckPermissionForWriteSettings(getApplicationContext())) {
-            writeSettings.setText("Allowed");
-        }
-        else {
-            writeSettings.setText("Allow");
+        writeSettings.setChecked(PermissionChecker.CheckPermissionForWriteSettings(getApplicationContext()));
+        sms.setChecked(PermissionChecker.HasReadSmsPermission(PermissionActivity.this));
+        admin.setChecked(PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null);
+
+        if (getIntent().getIntExtra("reqCode", 0) == Constants.REQ_CODE_LOCK_SMS_ACTION_PERM) {
+            if (PermissionChecker.HasReadSmsPermission(PermissionActivity.this)
+                    && PermissionChecker.GetDevPolMgrWithAdmnPerm(PermissionActivity.this) != null) {
+                setResult(Constants.RES_CODE_LOCK_SMS_ACTION_PERM_SUCCESS);
+            }
+            else {
+                setResult(Constants.RES_CODE_LOCK_SMS_ACTION_PERM_NOT_SUCCESS);
+            }
         }
     }
 
-    public void TriggerSmsPermissionActivity(View view) {
+    public void TriggerSmsPermissionActivity() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -77,11 +107,11 @@ public class PermissionActivity extends AppCompatActivity {
         // PermissionChecker.PromtForReadSmsPermission(PermissionActivity.this, true);
     }
 
-    public void TriggerModifySystemSettingsPermission(View view) {
+    public void TriggerModifySystemSettingsPermission() {
         PermissionChecker.PromptForWriteSettingPermission(PermissionActivity.this, 501, true);
     }
 
-    public void ActivateDeviceAdminPerm(View view) {
-        PermissionChecker.PromptForDeviceAdminPermission(PermissionActivity.this);
+    public void ActivateDeviceAdminPerm() {
+        PermissionChecker.PromptForDeviceAdminPermission(PermissionActivity.this, true);
     }
 }

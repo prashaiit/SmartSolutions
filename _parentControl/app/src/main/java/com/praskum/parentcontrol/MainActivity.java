@@ -7,6 +7,9 @@ import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
@@ -67,5 +70,26 @@ public class MainActivity extends AppCompatActivity {
     public void TriggerPermissionActivity(View view) {
         Intent intent = new Intent(MainActivity.this, PermissionActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.contactsmenu) {
+            Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+            startActivity(intent);
+        }
+        else if (item.getItemId() == R.id.permissionmenu) {
+            Intent intent = new Intent(MainActivity.this, PermissionActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

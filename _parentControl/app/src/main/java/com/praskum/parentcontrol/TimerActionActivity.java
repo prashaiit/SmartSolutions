@@ -62,7 +62,7 @@ public class TimerActionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForDeviceAdminPermission(TimerActionActivity.this);
+                    PermissionChecker.PromptForDeviceAdminPermission(TimerActionActivity.this, false);
                 }
 
                 UpdateToggleButton(lock);

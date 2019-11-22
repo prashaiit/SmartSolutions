@@ -1,8 +1,10 @@
 package com.praskum.parentcontrol;
 
+import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
@@ -69,7 +72,43 @@ public class SmsActionList extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForDeviceAdminPermission(SmsActionList.this);
+                    /*if (!PermissionChecker.HasReadSmsPermission(SmsActionList.this)) {
+                        PermissionChecker.PromtForReadSmsPermission(SmsActionList.this, false);
+                    }
+                    else {
+                        PermissionChecker.PromptForDeviceAdminPermission(SmsActionList.this, false);
+                    }*/
+
+                    if (!PermissionChecker.HasReadSmsPermission(SmsActionList.this)
+                            || PermissionChecker.GetDevPolMgrWithAdmnPerm(SmsActionList.this) == null) {
+
+                        LayoutInflater li = LayoutInflater.from(SmsActionList.this);
+                        View promptsView = li.inflate(R.layout.dialog_permission, null);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                SmsActionList.this);
+
+                        alertDialogBuilder.setView(promptsView);
+                        alertDialogBuilder.setCancelable(false).
+                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent permIntent = new Intent(SmsActionList.this, PermissionActivity.class);
+                                        permIntent.putExtra("reqCode", Constants.REQ_CODE_LOCK_SMS_ACTION_PERM);
+                                        startActivityForResult(permIntent, Constants.REQ_CODE_LOCK_SMS_ACTION_PERM);
+                                    }
+                                }).
+                                setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        lockScreen.setChecked(false);
+                                    }
+                                });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setTitle("Permissions Required");
+                        alertDialog.show();
+                    }
                 }
 
                 UpdateToggleButton(lockScreen);
@@ -112,7 +151,8 @@ public class SmsActionList extends AppCompatActivity {
         Cursor c = dbHelper.ReadData(Constants.LOCKSCREEN_SMS_ACTION_ALARMID);
         if ((c != null && c.getCount() > 0) || adminPermissionJustProvided) {
             boolean hadDeviceAdminPermission = (PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null);
-            lockScreen.setChecked(hadDeviceAdminPermission);
+            boolean hasReadSmsPermission = PermissionChecker.HasReadSmsPermission(SmsActionList.this);
+            lockScreen.setChecked(hadDeviceAdminPermission && hasReadSmsPermission);
             adminPermissionJustProvided = false;
         }
         else {
@@ -230,6 +270,14 @@ public class SmsActionList extends AppCompatActivity {
             }
             else {
                 Toast.makeText(getApplicationContext(), "Device Administrator Process Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == Constants.REQ_CODE_LOCK_SMS_ACTION_PERM) {
+            if (resultCode == Constants.RES_CODE_LOCK_SMS_ACTION_PERM_SUCCESS) {
+                lockScreen.setChecked(true);
+            }
+            else {
+                lockScreen.setChecked(false);
             }
         }
     }

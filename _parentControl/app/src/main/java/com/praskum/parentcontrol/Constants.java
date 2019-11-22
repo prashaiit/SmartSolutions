@@ -12,5 +12,7 @@ public class Constants {
 
 
     public static final int REQ_CODE_CONTACT_PICK = 1050;
-
+    public static final int REQ_CODE_LOCK_SMS_ACTION_PERM = 2050;
+    public static final int RES_CODE_LOCK_SMS_ACTION_PERM_SUCCESS = 2055;
+    public static final int RES_CODE_LOCK_SMS_ACTION_PERM_NOT_SUCCESS = 2056;
 }

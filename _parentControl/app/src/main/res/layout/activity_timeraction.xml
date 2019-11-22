@@ -10,9 +10,43 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+            android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
+            android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="110dp">
+
+                <Button
+                    android:background="@drawable/timerselectionplusminusshape"
+                    android:text="-"
+                    android:textColor="@color/tileforeground"
+                    android:textSize="@dimen/timer_textsize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:background="@drawable/timerselectionshape"
+                    android:text="5\nmin"
+                    android:textSize="@dimen/timer_textsize"
+                    android:gravity="center"
+                    android:textColor="@color/tileforeground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:background="@drawable/timerselectionplusminusshape"
+                    android:text="+"
+                    android:textColor="@color/tileforeground"
+                    android:textSize="@dimen/timer_textsize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/settimerlayout"

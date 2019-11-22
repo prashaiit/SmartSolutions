@@ -11,7 +11,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
-    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+   <!--  <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
 
     <application
         android:allowBackup="true"
@@ -33,7 +33,7 @@
         <activity android:name=".SmsActionList" android:screenOrientation="portrait"/>
         <activity android:name=".PermissionActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".AlarmReceiver" android:enabled="true"/>
-        <receiver android:name=".SmsListener">
+        <receiver android:name=".SmsListener" android:enabled="true" android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

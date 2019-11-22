@@ -15,6 +15,7 @@ import java.util.TimerTask;
 public class SmsListener extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
+        Log.i("smsReceived", "intent = " + intent.getAction());
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
             Bundle bundle = intent.getExtras();           //---get the SMS message passed in---
             SmsMessage[] msgs = null;

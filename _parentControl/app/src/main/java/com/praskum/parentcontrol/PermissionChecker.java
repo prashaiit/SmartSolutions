@@ -53,25 +53,32 @@ public class PermissionChecker {
         return null;
     }
 
-    public static void PromptForDeviceAdminPermission(Activity context) {
+    public static void PromptForDeviceAdminPermission(Activity context, boolean toggle) {
         final DevicePolicyManager mDevicePolicyManager = (DevicePolicyManager)context.getSystemService(
                 Context.DEVICE_POLICY_SERVICE);
 
         ComponentName mComponentName = new ComponentName(context, Admin.class);
 
-        if (mDevicePolicyManager != null && !mDevicePolicyManager.isAdminActive(mComponentName)) {
+        if ((mDevicePolicyManager != null && !mDevicePolicyManager.isAdminActive(mComponentName))) {
             Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Administrator description");
             context.startActivityForResult(intent, Constants.REQ_CODE_ADMIN_PERM);
         }
+        else if (toggle) {
+           mDevicePolicyManager.removeActiveAdmin(mComponentName);
+        }
+    }
+
+    public static boolean HasReadSmsPermission(Activity context) {
+        return ContextCompat.checkSelfPermission(context,Manifest.permission.READ_SMS)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     public static void PromtForReadSmsPermission(Activity context, boolean force) {
         int GET_MY_PERMISSION = 1;
 
-        if(!force && ContextCompat.checkSelfPermission(context,Manifest.permission.READ_SMS)
-                == PackageManager.PERMISSION_GRANTED) {
+        if(!force && HasReadSmsPermission(context)) {
             return;
         }
 
