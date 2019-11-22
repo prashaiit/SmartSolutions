@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +30,7 @@ import android.widget.ToggleButton;
 public class SmsActionList extends AppCompatActivity {
 
     private ToggleButton lockScreen, childMode;
-    private ToggleButton switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen;
+    private ToggleButton switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen, mediaVolumeEnable;
     private RelativeLayout lockPanelInChildMode;
     private SeekBar mediaVolume, brightness;
     private TextView turnOffScreenPanel, switch2HomePanel, wifiPanel, silentModePanel, brightnessPanel, mediavolumePanel;
@@ -67,6 +69,7 @@ public class SmsActionList extends AppCompatActivity {
         mediavolumePanel = (TextView) findViewById(R.id.mediavolumePanel);
         mediaVolume = (SeekBar) findViewById(R.id.mediavolume);
         brightness = (SeekBar) findViewById(R.id.brightness);
+        mediaVolumeEnable = (ToggleButton) findViewById(R.id.mediavolumeenable);
 
         lockScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -123,6 +126,14 @@ public class SmsActionList extends AppCompatActivity {
             }
         });
 
+        mediaVolumeEnable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateToggleButton(mediaVolumeEnable);
+                UpdateMediaVolumeControl(mediaVolumeEnable.isChecked());
+            }
+        });
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.tilebackground)));
@@ -132,6 +143,34 @@ public class SmsActionList extends AppCompatActivity {
         Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.tilebackground));
+        }
+    }
+
+    public void UpdateMediaVolumeControl(boolean enabled) {
+        mediaVolume.setEnabled(enabled);
+        UpdateMediaVolume();
+    }
+
+    public void UpdateMediaVolume() {
+            if (!mediaVolumeEnable.isChecked()) {
+                return;
+            }
+            AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            int currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+            Log.i("seekbar", "max vol " + am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+            Log.i("seekbar", "curr vol " + currentVolume);
+            mediaVolume.setProgress(currentVolume);
+            UpdateMediaVolumeSeekbarColor(mediaVolume, currentVolume);
+    }
+
+    public void UpdateMediaVolumeSeekbarColor(SeekBar sb, int progress) {
+        if (progress > 10) {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.mediavolumered), PorterDuff.Mode.SRC_ATOP);
+        }
+        else {
+            sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.MULTIPLY);
+            sb.getThumb().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.SRC_ATOP);
         }
     }
 
@@ -173,7 +212,11 @@ public class SmsActionList extends AppCompatActivity {
             wifi.setChecked(c.getInt(c.getColumnIndex("Wifi")) == 1);
             silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
             turnOffScreen.setChecked(c.getInt(c.getColumnIndex("ScreenOff")) == 1);
-            mediaVolume.setProgress(c.getInt(c.getColumnIndex("MediaVolume")));
+            int currentMediaVolume = c.getInt(c.getColumnIndex("MediaVolume"));
+            mediaVolume.setProgress(currentMediaVolume);
+            mediaVolumeEnable.setChecked(currentMediaVolume != -1);
+            mediaVolume.setEnabled(currentMediaVolume != -1);
+
             int brgness = c.getInt(c.getColumnIndex("Brightness"));
             if (brgness != -1) {
                 brightness.setProgress(brgness);
@@ -193,8 +236,9 @@ public class SmsActionList extends AppCompatActivity {
         wifi.setEnabled(enabled);
         silentModePanel.setEnabled(enabled);
         silentMode.setEnabled(enabled);
+        mediaVolumeEnable.setEnabled(enabled);
         mediavolumePanel.setEnabled(enabled);
-        mediaVolume.setEnabled(enabled);
+        mediaVolume.setEnabled(enabled && mediaVolumeEnable.isChecked());
         brightnessPanel.setEnabled(enabled);
         brightnessWritePermission.setEnabled(enabled);
         brightness.setEnabled(enabled && brightnessWritePermission.isChecked());
@@ -249,7 +293,13 @@ public class SmsActionList extends AppCompatActivity {
             dataModel = new DatabaseDataModel();
             dataModel.AlarmId = Constants.CHILDMODE_ACTIONS;
             dataModel.Brightness = brightnessWritePermission.isChecked() ? brightness.getProgress() : -1;
-            dataModel.MediaVolume = mediaVolume.getProgress();
+
+            if (mediaVolumeEnable.isChecked() && mediaVolume.isEnabled()) {
+                dataModel.MediaVolume = mediaVolume.getProgress();
+            }
+            else {
+                dataModel.MediaVolume = -1;
+            }
             dataModel.ScreenOff = turnOffScreen.isChecked();
             dataModel.SilentMode = silentMode.isChecked();
             dataModel.SwitchToHome = switch2Home.isChecked();

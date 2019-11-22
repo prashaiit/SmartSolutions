@@ -32,12 +32,14 @@ public class TimerActionActivity extends AppCompatActivity {
     private int value = 5;
     private int alarmId;
     private Button createAction, deleteAtion;
-    private ToggleButton lock, switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen;
+    private ToggleButton lock, switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen, mediavolumeenable;
+    private Button toggleButtonSecs, toggleButtonMins;
     private SeekBar mediaVolume, brightness;
     private static final int ADMIN_INTENT = 1;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
     private boolean adminPermissionJustProvided = false;
+    private boolean isTimeUnitsInMins = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,27 @@ public class TimerActionActivity extends AppCompatActivity {
         switch2Home = (ToggleButton) findViewById(R.id.switchtohome);
         wifi = (ToggleButton) findViewById(R.id.wifi);
         silentMode = (ToggleButton) findViewById(R.id.silent);
+        mediavolumeenable = (ToggleButton) findViewById(R.id.mediavolumeenable);
         mediaVolume = (SeekBar) findViewById(R.id.mediavolume);
         brightness = (SeekBar) findViewById(R.id.brightness);
         brightnessWritePermission = (ToggleButton) findViewById(R.id.brightnesswritepermissions);
         turnOffScreen = (ToggleButton) findViewById(R.id.turnoffscreen);
+        toggleButtonMins = (Button) findViewById(R.id.togglebuttonmins);
+        toggleButtonSecs = (Button) findViewById(R.id.togglebuttonseconds);
+
+        toggleButtonMins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateTimeUnits(true);
+            }
+        });
+
+        toggleButtonSecs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateTimeUnits(false);
+            }
+        });
 
         lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -125,6 +144,14 @@ public class TimerActionActivity extends AppCompatActivity {
             }
         });
 
+        mediavolumeenable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UpdateToggleButton(mediavolumeenable);
+                UpdateMediaVolumeControl(isChecked);
+            }
+        });
+
         brightnessWritePermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -161,6 +188,24 @@ public class TimerActionActivity extends AppCompatActivity {
         }
     }
 
+    private void UpdateTimeUnits(boolean isMins) {
+        if (isMins) {
+            toggleButtonSecs.setBackgroundResource(R.drawable.togglebuttonshapeunselected);
+            toggleButtonSecs.setTextColor(getResources().getColor(R.color.colorforeground));
+            toggleButtonMins.setBackgroundResource(R.drawable.togglebuttonshape);
+            toggleButtonMins.setTextColor(getResources().getColor(R.color.tileforeground));
+            isTimeUnitsInMins = true;
+        }
+        else {
+            toggleButtonMins.setBackgroundResource(R.drawable.togglebuttonshapeunselected);
+            toggleButtonMins.setTextColor(getResources().getColor(R.color.colorforeground));
+            toggleButtonSecs.setBackgroundResource(R.drawable.togglebuttonshape);
+            toggleButtonSecs.setTextColor(getResources().getColor(R.color.tileforeground));
+            isTimeUnitsInMins = false;
+        }
+
+        UpdateTextView();
+    }
     protected void UpdateToggleButton(ToggleButton toggleButton) {
         if (toggleButton.isChecked()) {
             toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
@@ -216,6 +261,7 @@ public class TimerActionActivity extends AppCompatActivity {
 
         lock.setChecked((isLockEnabled == 1 && PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null) || adminPermissionJustProvided);
 
+        UpdateTimeUnits(isTimeUnitsInMins);
         UpdateToggleButton(lock);
         UpdateToggleButton(wifi);
         UpdateToggleButton(silentMode);
@@ -227,6 +273,9 @@ public class TimerActionActivity extends AppCompatActivity {
     }
 
     public void UpdateMediaVolume() {
+        if (!mediavolumeenable.isChecked()) {
+            return;
+        }
         AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         Log.i("seekbar", "max vol " + am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
@@ -246,7 +295,13 @@ public class TimerActionActivity extends AppCompatActivity {
         timerActionDataModel.SwitchToHome = switch2Home.isChecked();
         timerActionDataModel.SilentMode = silentMode.isChecked();
         timerActionDataModel.WifiMode = wifi.isChecked();
-        timerActionDataModel.MediaVolume= mediaVolume.getProgress();
+
+        if (mediavolumeenable.isChecked() && mediaVolume.isEnabled()) {
+            timerActionDataModel.MediaVolume = mediaVolume.getProgress();
+        }
+        else {
+            timerActionDataModel.MediaVolume = -1;
+        }
 
         if (brightness.isEnabled() && brightnessWritePermission.isChecked()) {
             timerActionDataModel.Brightness = brightness.getProgress();
@@ -274,10 +329,24 @@ public class TimerActionActivity extends AppCompatActivity {
             // startService(serviceIntent);
 
             AlarmActionHelper helper = new AlarmActionHelper();
-            int h = value / 60;
-            int m = value % 60;
-            int s = 0;
-            helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s, -1);
+            if (isTimeUnitsInMins) {
+                int h = value / 60;
+                int m = value % 60;
+                int s = 0;
+                helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s, -1);
+            }
+            else {
+                int s = value % 60;
+                int m = value / 60;
+                int h = 0;
+
+                if (m >= 60) {
+                    h = m / 60;
+                    m = m % 60;
+                }
+
+                helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s, -1);
+            }
 
             Toast.makeText(getApplicationContext(), "Timer Action Created", Toast.LENGTH_SHORT).show();
 
@@ -301,14 +370,6 @@ public class TimerActionActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("addtimer", "OnActivityResult");
-        Log.i("addtimer", "req = " + requestCode + " resCode " + resultCode);
-
-        value = 0;
-
-        if (requestCode == 6 && resultCode == 5) {
-            value = data.getIntExtra("timer", 0);
-        }
 
         if (requestCode == Constants.REQ_CODE_ADMIN_PERM) {
             if (resultCode == RESULT_OK) {
@@ -324,7 +385,8 @@ public class TimerActionActivity extends AppCompatActivity {
     private void UpdateTextView(){
         Utils utils = new Utils();
 
-        timerSetting.setText(value + "\n mins");
+        String units = isTimeUnitsInMins ? "mins" : "secs";
+        timerSetting.setText(value + "\n " + units);
     }
 
     @Override
@@ -353,6 +415,11 @@ public class TimerActionActivity extends AppCompatActivity {
             sb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.MULTIPLY);
             sb.getThumb().setColorFilter(getResources().getColor(R.color.tileforeground), PorterDuff.Mode.SRC_ATOP);
         }
+    }
+
+    public void UpdateMediaVolumeControl(boolean enabled) {
+           mediaVolume.setEnabled(enabled);
+           UpdateMediaVolume();
     }
 
     public void UpdateBrightnessControl() {
@@ -394,11 +461,9 @@ public class TimerActionActivity extends AppCompatActivity {
     }
 
     public void TimerMinusEvent(View view) {
-        if (value == 5) {
-            return;
+        if (value > 5) {
+            value = value - 5;
         }
-
-        value = value - 5;
         UpdateTextView();
     }
 }

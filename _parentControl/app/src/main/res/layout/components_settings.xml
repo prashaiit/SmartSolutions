@@ -7,7 +7,6 @@
         android:id="@+id/togglebuttonlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settimerlayout"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
 
@@ -158,20 +157,39 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/mediavolumePanel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+            <RelativeLayout
+                android:id="@+id/mediavolumelayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/timeroptionheight"
                 android:layout_marginBottom="5dp"
-                android:text="Media Volume"
-                android:textAllCaps="false"
-                android:textColor="@drawable/textviewcolor"
-                android:textSize="@dimen/labels_textsize" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mediavolumePanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="5dp"
+                    android:text="Media Volume"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/textviewcolor"
+                    android:textSize="@dimen/labels_textsize" />
+
+                <ToggleButton
+                    android:id="@+id/mediavolumeenable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/togglebuttonshape"
+                    android:textAllCaps="false"
+                    android:textColor="@color/tileforeground" />
+
+            </RelativeLayout>
 
             <SeekBar
                 android:id="@+id/mediavolume"
-                android:layout_below="@+id/mediavolumePanel"
+                android:layout_below="@+id/mediavolumelayout"
                 android:layout_alignParentEnd="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

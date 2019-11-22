@@ -13,6 +13,7 @@
             android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
             android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
             android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+            android:paddingBottom="@dimen/smsactionlist_parentmarginleftright"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -111,6 +112,7 @@
                 android:id="@+id/childmodesettingslayout"
                 android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
                 android:layout_marginRight="@dimen/smsactionlist_childmargingleftright2"
+                android:layout_marginBottom="@dimen/smsactionlist_childmargintopbottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

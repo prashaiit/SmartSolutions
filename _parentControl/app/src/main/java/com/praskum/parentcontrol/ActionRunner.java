@@ -41,13 +41,14 @@ public class ActionRunner {
 
             int currentVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
             int newVolume = c.getInt(c.getColumnIndex("MediaVolume"));
+            if (newVolume != -1) {
+                int delta = Math.abs(newVolume - currentVolume);
+                int v = currentVolume > newVolume ? AudioManager.ADJUST_LOWER : AudioManager.ADJUST_RAISE;
 
-            int delta = Math.abs(newVolume - currentVolume);
-            int v = currentVolume > newVolume ? AudioManager.ADJUST_LOWER : AudioManager.ADJUST_RAISE;
-
-            while (delta > 0) {
-                delta--;
-                am.adjustStreamVolume(AudioManager.STREAM_MUSIC, v, AudioManager.FLAG_PLAY_SOUND);
+                while (delta > 0) {
+                    delta--;
+                    am.adjustStreamVolume(AudioManager.STREAM_MUSIC, v, AudioManager.FLAG_PLAY_SOUND);
+                }
             }
 
             int newBrightness = c.getInt(c.getColumnIndex("Brightness"));

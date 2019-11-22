@@ -18,10 +18,10 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:layout_marginHorizontal="@dimen/labels_margin"
+                android:layout_marginHorizontal="36dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="110dp">
+                android:layout_height="150dp">
 
                 <RelativeLayout
                     android:layout_alignParentLeft="true"
@@ -40,17 +40,51 @@
                         android:onClick="TimerMinusEvent"/>
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/timerSetting"
+                <RelativeLayout
                     android:layout_centerInParent="true"
-                    android:background="@drawable/timerselectionshape"
-                    android:text="5\nmin"
-                    android:textSize="@dimen/timer_textsize"
-                    android:gravity="center"
-                    android:textColor="@color/tileforeground"
-                    android:layout_height="100dp"
-                    android:layout_width="100dp"
-                    />
+                    android:layout_width="150dp"
+                    android:layout_height="150dp">
+
+                    <TextView
+                        android:id="@+id/timerSetting"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/timerselectionshape"
+                        android:text="5\nmin"
+                        android:textSize="@dimen/timer_textsize"
+                        android:gravity="center"
+                        android:textColor="@color/tileforeground"
+                        android:layout_height="95dp"
+                        android:layout_width="95dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/timerSetting"
+                        android:orientation="horizontal"
+                        android:layout_width="94dp"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/togglebuttonseconds"
+                            android:background="@drawable/togglebuttonshape"
+                            android:text="sec"
+                            android:textAlignment="center"
+                            android:textColor="@color/tileforeground"
+                            android:textAllCaps="false"
+                            android:layout_width="47dp"
+                            android:layout_height="wrap_content" />
+                        <Button
+                            android:id="@+id/togglebuttonmins"
+                            android:background="@drawable/togglebuttonshape"
+                            android:text="min"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/tileforeground"
+                            android:layout_width="47dp"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_alignParentRight="true"
@@ -170,7 +204,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="25dp"
                 android:layout_gravity="end">
 
@@ -182,7 +215,7 @@
                     android:id="@+id/createTimerAction"
                     android:text="Create"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorforeground"
+                    android:textColor="@color/tileforeground"
                     android:onClick="CreateTimerAction"/>
 
                 <Button
