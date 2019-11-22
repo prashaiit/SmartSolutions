@@ -28,8 +28,8 @@ import static android.view.View.VISIBLE;
 
 public class TimerActionActivity extends AppCompatActivity {
 
-    private TextView hour, min, sec;
-    private int value = 0;
+    private TextView timerSetting;
+    private int value = 5;
     private int alarmId;
     private Button createAction, deleteAtion;
     private ToggleButton lock, switch2Home, wifi, silentMode, brightnessWritePermission, turnOffScreen;
@@ -44,9 +44,8 @@ public class TimerActionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_timeraction);
-        hour = (TextView) findViewById(R.id.hours);
-        min = (TextView) findViewById(R.id.mintues);
-        sec = (TextView) findViewById(R.id.seconds);
+
+        timerSetting = (TextView) findViewById(R.id.timerSetting);
         createAction = (Button) findViewById(R.id.createTimerAction);
         deleteAtion = (Button) findViewById(R.id.deleteTimerAction);
         lock = (ToggleButton) findViewById(R.id.lock);
@@ -236,11 +235,6 @@ public class TimerActionActivity extends AppCompatActivity {
         UpdateMediaVolumeSeekbarColor(mediaVolume, currentVolume);
     }
 
-    public void TriggerAddTimerActivity(View view) {
-        Intent intent = new Intent(TimerActionActivity.this, AddTimerActivity.class);
-        startActivityForResult(intent, 6);
-    }
-
     public void CreateTimerAction(View view) {
         Log.i("smsAction", "createTimer");
         Random random = new Random();
@@ -280,9 +274,9 @@ public class TimerActionActivity extends AppCompatActivity {
             // startService(serviceIntent);
 
             AlarmActionHelper helper = new AlarmActionHelper();
-            int h = Integer.parseInt(hour.getText().toString());
-            int m = Integer.parseInt(min.getText().toString());
-            int s = Integer.parseInt(sec.getText().toString());
+            int h = value / 60;
+            int m = value % 60;
+            int s = 0;
             helper.CreateAlarm(getApplicationContext(), randomnumber, h, m, s, -1);
 
             Toast.makeText(getApplicationContext(), "Timer Action Created", Toast.LENGTH_SHORT).show();
@@ -329,9 +323,8 @@ public class TimerActionActivity extends AppCompatActivity {
 
     private void UpdateTextView(){
         Utils utils = new Utils();
-        sec.setText(utils.getSecValue(value));
-        min.setText(utils.getMinValue(value));
-        hour.setText(utils.getHourValue(value));
+
+        timerSetting.setText(value + "\n mins");
     }
 
     @Override
@@ -393,5 +386,19 @@ public class TimerActionActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public void TimerPlusEvent(View view) {
+        value = value + 5;
+        UpdateTextView();
+    }
+
+    public void TimerMinusEvent(View view) {
+        if (value == 5) {
+            return;
+        }
+
+        value = value - 5;
+        UpdateTextView();
     }
 }

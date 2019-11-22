@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="Switch to Home"
+                android:text="Minimize All Apps"
                 android:textAllCaps="false"
                 android:textColor="@drawable/textviewcolor"
                 android:textSize="@dimen/labels_textsize" />
@@ -124,6 +124,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/timeroptionheight"
             android:layout_marginTop="@dimen/margintopbottomToggleButton"

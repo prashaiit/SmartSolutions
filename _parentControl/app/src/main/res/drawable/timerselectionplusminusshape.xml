@@ -2,5 +2,5 @@
     android:shape="oval">
     <solid android:color="@color/tilebackground"/>
     <stroke android:width="0dp" android:color="@color/tileforeground" />
-    <size android:width="25dp" android:height="25dp"/>
+    <size android:width="@dimen/timeractionplusminusradius" android:height="@dimen/timeractionplusminusradius"/>
 </shape>

@@ -17,38 +17,61 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
+                android:layout_marginHorizontal="@dimen/labels_margin"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="110dp">
 
-                <Button
-                    android:background="@drawable/timerselectionplusminusshape"
-                    android:text="-"
-                    android:textColor="@color/tileforeground"
-                    android:textSize="@dimen/timer_textsize"
+                <RelativeLayout
+                    android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/timerselectionplusminusshape"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="@color/tileforeground"
+                        android:textSize="@dimen/timer_textsize"
+                        android:layout_width="@dimen/timeractionplusminusradius"
+                        android:layout_height="@dimen/timeractionplusminusradius"
+                        android:onClick="TimerMinusEvent"/>
+                </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/timerSetting"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/timerselectionshape"
                     android:text="5\nmin"
                     android:textSize="@dimen/timer_textsize"
                     android:gravity="center"
                     android:textColor="@color/tileforeground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="100dp"
+                    android:layout_width="100dp"
+                    />
 
-                <Button
-                    android:background="@drawable/timerselectionplusminusshape"
-                    android:text="+"
-                    android:textColor="@color/tileforeground"
-                    android:textSize="@dimen/timer_textsize"
+                <RelativeLayout
+                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="match_parent">
 
-            <RelativeLayout
+                    <Button
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/timerselectionplusminusshape"
+                        android:text="+"
+                        android:textAlignment="center"
+                        android:textColor="@color/tileforeground"
+                        android:textSize="@dimen/timer_textsize"
+                        android:layout_width="@dimen/timeractionplusminusradius"
+                        android:layout_height="@dimen/timeractionplusminusradius"
+                        android:onClick="TimerPlusEvent"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!-- <RelativeLayout
                 android:id="@+id/settimerlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +161,7 @@
 
                     </LinearLayout>
                 </RelativeLayout>
-            </RelativeLayout>
+            </RelativeLayout> -->
 
             <include layout="@layout/components_settings"/>
 
