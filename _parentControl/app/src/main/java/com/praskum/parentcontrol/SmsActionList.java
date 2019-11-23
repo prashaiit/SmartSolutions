@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import static android.view.View.VISIBLE;
+
 public class SmsActionList extends AppCompatActivity {
 
     private ToggleButton lockScreen, childMode;
@@ -34,7 +36,7 @@ public class SmsActionList extends AppCompatActivity {
     private RelativeLayout lockPanelInChildMode;
     private SeekBar mediaVolume, brightness;
     private TextView turnOffScreenPanel, switch2HomePanel, wifiPanel, silentModePanel, brightnessPanel, mediavolumePanel;
-    private boolean adminPermissionJustProvided = false;
+    private boolean adminPermissionJustProvided = false, writePermissionJustProvided = false;
     private static final int ADMIN_INTENT = 1;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
@@ -113,15 +115,12 @@ public class SmsActionList extends AppCompatActivity {
                         alertDialog.show();
                     }
                 }
-
-                UpdateToggleButton(lockScreen);
             }
         });
 
         childMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateToggleButton(childMode);
                 UpdateChildModeSettings();
             }
         });
@@ -129,8 +128,26 @@ public class SmsActionList extends AppCompatActivity {
         mediaVolumeEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateToggleButton(mediaVolumeEnable);
-                UpdateMediaVolumeControl(mediaVolumeEnable.isChecked());
+                mediaVolume.setEnabled(mediaVolumeEnable.isChecked());
+                UpdateMediaVolume();
+            }
+        });
+
+        brightnessWritePermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PermissionChecker.PromptForWriteSettingPermission(SmsActionList.this, Constants.REQ_CODE_WRITE_PERM, false);
+                }
+            }
+        });
+
+        turnOffScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    PermissionChecker.PromptForWriteSettingPermission(SmsActionList.this, Constants.REQ_CODE_WRITE_PERM, false);
+                }
             }
         });
 
@@ -146,9 +163,21 @@ public class SmsActionList extends AppCompatActivity {
         }
     }
 
-    public void UpdateMediaVolumeControl(boolean enabled) {
-        mediaVolume.setEnabled(enabled);
-        UpdateMediaVolume();
+    public void UpdateBrightnessControl() {
+        boolean hasPermission = PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext());
+        brightnessWritePermission.setChecked(hasPermission);
+        brightness.setEnabled(hasPermission);
+
+        if (hasPermission) {
+            int currentBrightness = Utils.getBrightness(getApplicationContext());
+            brightness.setProgress(currentBrightness);
+        }
+    }
+
+    public void UpdateScreenTurnOffControl() {
+        if (!PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext())) {
+            turnOffScreen.setChecked(false);
+        }
     }
 
     public void UpdateMediaVolume() {
@@ -178,10 +207,14 @@ public class SmsActionList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        UpdateSettingsFromDatabase();
-        UpdateToggleButton(lockScreen);
-        UpdateToggleButton(childMode);
-        UpdateChildModeSettings();
+        if (writePermissionJustProvided) {
+            UpdateBrightnessControl();
+            UpdateScreenTurnOffControl();
+        }
+        else {
+            UpdateSettingsFromDatabase();
+            UpdateChildModeSettings();
+        }
     }
 
     private void UpdateSettingsFromDatabase() {
@@ -215,12 +248,14 @@ public class SmsActionList extends AppCompatActivity {
             int currentMediaVolume = c.getInt(c.getColumnIndex("MediaVolume"));
             mediaVolume.setProgress(currentMediaVolume);
             mediaVolumeEnable.setChecked(currentMediaVolume != -1);
-            mediaVolume.setEnabled(currentMediaVolume != -1);
 
             int brgness = c.getInt(c.getColumnIndex("Brightness"));
             if (brgness != -1) {
                 brightness.setProgress(brgness);
             }
+
+            boolean hasWritePerm = PermissionChecker.CheckPermissionForWriteSettings(SmsActionList.this);
+            brightnessWritePermission.setChecked(brgness != -1 && hasWritePerm);
             Log.i("timeraction", "values read = " + c.getInt(1) + " , " + c.getInt(2));
         }
     }
@@ -242,17 +277,6 @@ public class SmsActionList extends AppCompatActivity {
         brightnessPanel.setEnabled(enabled);
         brightnessWritePermission.setEnabled(enabled);
         brightness.setEnabled(enabled && brightnessWritePermission.isChecked());
-    }
-
-    protected void UpdateToggleButton(ToggleButton toggleButton) {
-        if (toggleButton.isChecked()) {
-            toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
-            //toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
-        }
-        else {
-            toggleButton.setBackgroundResource(R.drawable.buttonshape);
-            //toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
-        }
     }
 
     @Override
@@ -329,6 +353,9 @@ public class SmsActionList extends AppCompatActivity {
             else {
                 lockScreen.setChecked(false);
             }
+        }
+        else if (requestCode == Constants.REQ_CODE_WRITE_PERM) {
+            writePermissionJustProvided = true;
         }
     }
 }

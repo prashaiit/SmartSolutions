@@ -82,29 +82,6 @@ public class TimerActionActivity extends AppCompatActivity {
                 if (isChecked) {
                     PermissionChecker.PromptForDeviceAdminPermission(TimerActionActivity.this, false);
                 }
-
-                UpdateToggleButton(lock);
-            }
-        });
-
-        switch2Home.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateToggleButton(switch2Home);
-            }
-        });
-
-        silentMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateToggleButton(silentMode);
-            }
-        });
-
-        wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateToggleButton(wifi);
             }
         });
 
@@ -147,7 +124,6 @@ public class TimerActionActivity extends AppCompatActivity {
         mediavolumeenable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateToggleButton(mediavolumeenable);
                 UpdateMediaVolumeControl(isChecked);
             }
         });
@@ -156,10 +132,9 @@ public class TimerActionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501, false);
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, Constants.REQ_CODE_WRITE_PERM, false);
                 }
 
-                UpdateToggleButton(brightnessWritePermission);
                 UpdateBrightnessControl();
             }
         });
@@ -168,9 +143,8 @@ public class TimerActionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, 501, false);
+                    PermissionChecker.PromptForWriteSettingPermission(TimerActionActivity.this, Constants.REQ_CODE_WRITE_PERM, false);
                 }
-                UpdateToggleButton(turnOffScreen);
             }
         });
 
@@ -206,16 +180,6 @@ public class TimerActionActivity extends AppCompatActivity {
 
         UpdateTextView();
     }
-    protected void UpdateToggleButton(ToggleButton toggleButton) {
-        if (toggleButton.isChecked()) {
-            toggleButton.setBackgroundResource(R.drawable.buttonshapeclicked);
-            //toggleButton.setTextColor(getResources().getColor(R.color.colorbackground));
-        }
-        else {
-            toggleButton.setBackgroundResource(R.drawable.buttonshape);
-            //toggleButton.setTextColor(getResources().getColor(R.color.colorforeground));
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -239,7 +203,12 @@ public class TimerActionActivity extends AppCompatActivity {
                 wifi.setChecked(c.getInt(c.getColumnIndex("Wifi")) == 1);
                 silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
                 turnOffScreen.setChecked(c.getInt(c.getColumnIndex("ScreenOff")) == 1);
-                mediaVolume.setProgress(c.getInt(c.getColumnIndex("MediaVolume")));
+
+                int currentMediaVolume = c.getInt(c.getColumnIndex("MediaVolume"));
+                if (currentMediaVolume != -1) {
+                    mediaVolume.setProgress(currentMediaVolume);
+                }
+
                 int brgness = c.getInt(c.getColumnIndex("Brightness"));
                 if (brgness != -1) {
                     brightness.setProgress(brgness);
@@ -262,11 +231,6 @@ public class TimerActionActivity extends AppCompatActivity {
         lock.setChecked((isLockEnabled == 1 && PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null) || adminPermissionJustProvided);
 
         UpdateTimeUnits(isTimeUnitsInMins);
-        UpdateToggleButton(lock);
-        UpdateToggleButton(wifi);
-        UpdateToggleButton(silentMode);
-        UpdateToggleButton(switch2Home);
-        UpdateToggleButton(brightnessWritePermission);
         UpdateMediaVolume();
         UpdateBrightnessControl();
         UpdateScreenTurnOffControl();
@@ -274,6 +238,7 @@ public class TimerActionActivity extends AppCompatActivity {
 
     public void UpdateMediaVolume() {
         if (!mediavolumeenable.isChecked()) {
+            mediaVolume.setEnabled(false);
             return;
         }
         AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
