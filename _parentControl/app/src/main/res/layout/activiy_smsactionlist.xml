@@ -18,6 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:text="Note: Sms Actions are allowed only from Registered Mobile Numbers. Click here to Add"
+                android:textSize="12dp"
+                android:textColor="@color/colorforeground"
+                android:background="#b5b5f5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
                 android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
@@ -59,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorforeground"
                     android:textSize="@dimen/labels_textsize"
-                    android:text="Lock the Screen with an Sms with a keyword 'lock'"/>
+                    android:text="Lock the Screen when Sms 'lock' is received"/>
 
             </LinearLayout>
 
@@ -81,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Child Mode"
+                        android:text="Kid Safe Mode"
                         android:textAllCaps="false"
                         android:textStyle="bold"
                         android:textColor="@color/tilebackground"
@@ -104,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorforeground"
                     android:textSize="@dimen/labels_textsize"
-                    android:text="Enable Child mode with an Sms with a keyword 'chmod'"/>
+                    android:text="Perform below Actions when Sms 'kidmode' is received"/>
 
             </LinearLayout>
 

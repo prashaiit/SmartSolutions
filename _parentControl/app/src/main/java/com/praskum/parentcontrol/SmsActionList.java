@@ -139,6 +139,8 @@ public class SmsActionList extends AppCompatActivity {
                 if (isChecked) {
                     PermissionChecker.PromptForWriteSettingPermission(SmsActionList.this, Constants.REQ_CODE_WRITE_PERM, false);
                 }
+
+                UpdateBrightnessControl();
             }
         });
 
@@ -165,10 +167,15 @@ public class SmsActionList extends AppCompatActivity {
 
     public void UpdateBrightnessControl() {
         boolean hasPermission = PermissionChecker.CheckPermissionForWriteSettings(this.getApplicationContext());
-        brightnessWritePermission.setChecked(hasPermission);
-        brightness.setEnabled(hasPermission);
 
-        if (hasPermission) {
+        if (writePermissionJustProvided) {
+            brightnessWritePermission.setChecked(hasPermission);
+        }
+
+        boolean value = hasPermission && brightnessWritePermission.isChecked();
+        brightness.setEnabled(value);
+
+        if (value) {
             int currentBrightness = Utils.getBrightness(getApplicationContext());
             brightness.setProgress(currentBrightness);
         }
@@ -210,6 +217,7 @@ public class SmsActionList extends AppCompatActivity {
         if (writePermissionJustProvided) {
             UpdateBrightnessControl();
             UpdateScreenTurnOffControl();
+            writePermissionJustProvided = false;
         }
         else {
             UpdateSettingsFromDatabase();

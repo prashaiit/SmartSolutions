@@ -7,5 +7,5 @@
     <string name="contacts_title">Contacts</string>
     <string name="permissions_title">Permissions</string>
     <string name="locktext"><b>Lock</b> - Screen will be Locked when a message \'Lock\' is received</string>
-    <string name="chmodtext"><b>Chmod</b> - Selected settings in Sms Actions will be done when a message \'Chmod\' is received</string>
+    <string name="kidmodetext"><b>Kidmode</b> - Selected settings in Sms Actions will be done when a message \'Kidmode\' is received</string>
 </resources>

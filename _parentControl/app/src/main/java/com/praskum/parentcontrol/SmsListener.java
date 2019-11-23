@@ -68,7 +68,7 @@ public class SmsListener extends BroadcastReceiver {
                                 }, 10000);
                             }
                         }
-                        else if (msgBody.equalsIgnoreCase("chmod")) {
+                        else if (msgBody.equalsIgnoreCase("kidmode")) {
                             DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
                             Cursor c = dbHelper.ReadData(Constants.CHILDMODE_SMS_ACTION_ALARMID);
                             if (c != null && c.getCount() > 0) {

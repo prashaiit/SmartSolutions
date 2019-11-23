@@ -59,7 +59,7 @@
         <TextView
             android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom"
             android:textColor="@color/colorforeground"
-            android:text="@string/chmodtext"
+            android:text="@string/kidmodetext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
