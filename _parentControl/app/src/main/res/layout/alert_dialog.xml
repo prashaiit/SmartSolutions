@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/tileforeground">
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginLeft="@dimen/labels_margin"
+        android:id="@+id/dialogtitlePerm"
+        android:textColor="@color/tilebackground"
+        android:text="@string/PermissionsRequired"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="@dimen/labels_margin"
+        android:textSize="20dp"
+        android:id="@+id/dialogtitleContacts"
+        android:textColor="@color/tilebackground"
+        android:text="@string/ContactsRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_marginTop="10dp"

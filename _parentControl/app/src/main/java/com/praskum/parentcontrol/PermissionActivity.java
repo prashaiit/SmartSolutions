@@ -104,4 +104,9 @@ public class PermissionActivity extends AppCompatActivity {
     public void ActivateDeviceAdminPerm() {
         PermissionChecker.PromptForDeviceAdminPermission(PermissionActivity.this, true);
     }
+
+    public void TriggerSmsPolicyActivity(View view) {
+        Intent intent = new Intent(PermissionActivity.this, SmsPolicyActivity.class);
+        startActivity(intent);
+    }
 }

@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -15,10 +16,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -160,29 +163,38 @@ public class SmsActionList extends AppCompatActivity {
         View promptsView = li.inflate(R.layout.alert_dialog, null);
         TextView dialogContent = (TextView) promptsView.findViewById(R.id.dialogContent);
 
-        String title = "";
+        boolean isPermTitle = true;
         if (isLock && isPerm) {
             dialogContent.setText("Read Sms/Receive Sms\nDevice Admin");
-            title = "Permissions Required";
         }
         else if (isLock && !isPerm) {
             dialogContent.setText("Atleast one Contact has to be registered to allow Sms Action 'lock'");
-            title = "Register Contacts";
+            isPermTitle = false;
         }
         else if (!isLock && isPerm) {
             dialogContent.setText("Read Sms/Receive Sms\nModify System Settings");
-            title = "Permissions Required";
         }
         else {
+            isPermTitle = false;
             dialogContent.setText("Atleast one Contact has to be registered to allow Sms Action 'kidmode'");
-            title = "Register Contacts";
         }
+
+        TextView permTitle = (TextView) promptsView.findViewById(R.id.dialogtitlePerm);
+        TextView contactsTitle = (TextView) promptsView.findViewById(R.id.dialogtitleContacts);
+        if (isPermTitle) {
+            contactsTitle.setVisibility(View.GONE);
+        }
+        else {
+            permTitle.setVisibility(View.GONE);
+        }
+
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 SmsActionList.this);
 
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false).
-                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (isLock && isPerm) {
@@ -221,8 +233,12 @@ public class SmsActionList extends AppCompatActivity {
                 });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setTitle(title);
         alertDialog.show();
+
+        Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        nbutton.setTextColor(getResources().getColor(R.color.tilebackground));
+        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(getResources().getColor(R.color.tilebackground));
     }
 
     public void UpdateBrightnessControl() {

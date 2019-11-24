@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TimerActionActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".AddTimerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".SmsPolicyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ContactsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".SmsActionList" android:screenOrientation="portrait"/>
         <activity android:name=".PermissionActivity" android:screenOrientation="portrait"/>

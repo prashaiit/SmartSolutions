@@ -10,4 +10,18 @@
     <string name="kidmodetext"><b>Kidmode</b> - Selected settings in Sms Actions will be done when a message \'Kidmode\' is received</string>
     <string name="smspolicytext"><i>Click here to read Sms Policy</i></string>
     <string name="smsactionsheader"><i><b>Note:</b> Sms messages will be considered only from Registered Mobile Numbers. Click here to Add/Update</i></string>
+    <string name="PermissionsRequired"><b>Permissions Required</b></string>
+    <string name="ContactsRequired"><b>Register Contacts</b></string>
+    <string name="SmspolicyTextHeader">Sms Policy</string>
+    <string name="SmsPolicy">
+        1. Sms messages will be read only when Receive and Read Sms Permission is given by the user\n\n
+        2. Sms message will be read only when it is received from any of the registered mobile numbers\n\n
+        3. Screen Lock will happen only when Lock Action is enabled in "Sms Actions"\n   Enabling it requires ReadSms and Device Admin Permission to Lock the Screen\n\n
+        4. Screen Lock will happen when an Sms \'Lock\'(case-insensitive) is received from any of the registered mobile numbers\n\n
+        5. Screen Lock will happen 10 seconds after receiving the Sms\n\n
+        6. Kid Safe Mode Settings will be executed only when it is enabled in "Sms Actions"\n   Enabling it requires ReadSms Permission\n\n
+        7. Kid Safe Mode settings will be executed only when an Sms \'kidmode\'(case-insensitive) is received from any of the registered mobile numbers\n\n
+        8. Kid Safe Mode settings will be executed 10 seconds after receiving the Sms\n\n
+        9. Additional \'Modify System Settins\' permission is required to enable \'Turn Off Screen\' and \'Brightness\' options
+    </string>
 </resources>

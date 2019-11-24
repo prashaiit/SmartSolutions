@@ -64,11 +64,13 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/labels_margin"
             android:textColor="@color/colorforeground"
             android:text="@string/smspolicytext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#d9d9d9"
             android:onClick="TriggerSmsPolicyActivity"
             />
     </LinearLayout>
