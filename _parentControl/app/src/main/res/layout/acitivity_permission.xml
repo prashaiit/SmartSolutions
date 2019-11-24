@@ -62,6 +62,15 @@
             android:text="@string/kidmodetext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom"
+            android:textColor="@color/colorforeground"
+            android:text="@string/smspolicytext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="TriggerSmsPolicyActivity"
+            />
     </LinearLayout>
 
     <LinearLayout

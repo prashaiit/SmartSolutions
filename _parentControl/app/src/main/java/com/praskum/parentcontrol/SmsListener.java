@@ -58,34 +58,28 @@ public class SmsListener extends BroadcastReceiver {
                         }
 
                         String msgBody = msgs[i].getMessageBody().toLowerCase();
-
-                        if (msgBody.equalsIgnoreCase("lock")) {
-                            DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
-                            Cursor c = dbHelper.ReadData(Constants.LOCKSCREEN_SMS_ACTION_ALARMID);
-                            if (c != null && c.getCount() > 0) {
+                        DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
+                        Cursor lockCursor = dbHelper.ReadData(Constants.LOCKSCREEN_SMS_ACTION_ALARMID);
+                        Cursor kidModeCursor = dbHelper.ReadData(Constants.CHILDMODE_SMS_ACTION_ALARMID);
+                        if (lockCursor != null && lockCursor.getCount() > 0 && msgBody.equalsIgnoreCase("lock")) {
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    ActionRunner actionRunner = new ActionRunner();
+                                    actionRunner.ApplyLockAction(context);
+                                }
+                            }, 10000);
+                        }
+                        else if (kidModeCursor != null && kidModeCursor.getCount() > 0 && msgBody.equalsIgnoreCase("kidmode")) {
+                            final Cursor settingsCursor = dbHelper.ReadData(Constants.CHILDMODE_ACTIONS);
+                            if (settingsCursor != null && settingsCursor.getCount() > 0) {
                                 new Timer().schedule(new TimerTask() {
                                     @Override
                                     public void run() {
                                         ActionRunner actionRunner = new ActionRunner();
-                                        actionRunner.ApplyLockAction(context);
+                                        actionRunner.ApplyActions(context, settingsCursor);
                                     }
                                 }, 10000);
-                            }
-                        }
-                        else if (msgBody.equalsIgnoreCase("kidmode")) {
-                            DatabaseActionHelper dbHelper = new DatabaseActionHelper(context);
-                            Cursor c = dbHelper.ReadData(Constants.CHILDMODE_SMS_ACTION_ALARMID);
-                            if (c != null && c.getCount() > 0) {
-                                final Cursor settingsCursor = dbHelper.ReadData(Constants.CHILDMODE_ACTIONS);
-                                if (settingsCursor != null && settingsCursor.getCount() > 0) {
-                                    new Timer().schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            ActionRunner actionRunner = new ActionRunner();
-                                            actionRunner.ApplyActions(context, settingsCursor);
-                                        }
-                                    }, 10000);
-                                }
                             }
                         }
                     }
