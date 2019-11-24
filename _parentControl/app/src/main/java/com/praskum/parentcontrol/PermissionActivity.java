@@ -82,16 +82,6 @@ public class PermissionActivity extends AppCompatActivity {
         writeSettings.setChecked(PermissionChecker.CheckPermissionForWriteSettings(getApplicationContext()));
         sms.setChecked(PermissionChecker.HasReadSmsPermission(PermissionActivity.this));
         admin.setChecked(PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null);
-
-        if (getIntent().getIntExtra("reqCode", 0) == Constants.REQ_CODE_LOCK_SMS_ACTION_PERM) {
-            if (PermissionChecker.HasReadSmsPermission(PermissionActivity.this)
-                    && PermissionChecker.GetDevPolMgrWithAdmnPerm(PermissionActivity.this) != null) {
-                setResult(Constants.RES_CODE_LOCK_SMS_ACTION_PERM_SUCCESS);
-            }
-            else {
-                setResult(Constants.RES_CODE_LOCK_SMS_ACTION_PERM_NOT_SUCCESS);
-            }
-        }
     }
 
     public void TriggerSmsPermissionActivity() {

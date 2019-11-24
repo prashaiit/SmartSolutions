@@ -75,20 +75,8 @@ public class PermissionChecker {
                 == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void PromtForReadSmsPermission(Activity context, boolean force) {
-        int GET_MY_PERMISSION = 1;
-
-        if(!force && HasReadSmsPermission(context)) {
-            return;
-        }
-
-        ActivityCompat.requestPermissions(context,
-                new String[]{Manifest.permission.READ_SMS},GET_MY_PERMISSION);
-
-       /* if(ActivityCompat.shouldShowRequestPermissionRationale(context,
-                Manifest.permission.READ_SMS)){
-            /* do nothing*/
-       // }
-
+    public static boolean HasReadSmsPermission(Context context) {
+        return ContextCompat.checkSelfPermission(context,Manifest.permission.READ_SMS)
+                == PackageManager.PERMISSION_GRANTED;
     }
 }

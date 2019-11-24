@@ -5,21 +5,13 @@
     android:background="@color/tileforeground">
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/dialogContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Read Sms/Receive Sms"
-        android:textColor="@color/tilebackground"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Modify System Settings"
-        android:textColor="@color/tilebackground"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Device Admin"
         android:textColor="@color/tilebackground"/>
 
 </LinearLayout>

@@ -53,6 +53,10 @@ public class SmsListener extends BroadcastReceiver {
                             continue;
                         }
 
+                        if (!PermissionChecker.HasReadSmsPermission(context)) {
+                            continue;
+                        }
+
                         String msgBody = msgs[i].getMessageBody().toLowerCase();
 
                         if (msgBody.equalsIgnoreCase("lock")) {

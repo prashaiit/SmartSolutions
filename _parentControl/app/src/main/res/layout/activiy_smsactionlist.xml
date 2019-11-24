@@ -10,121 +10,136 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
-            android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
-            android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
-            android:paddingBottom="@dimen/smsactionlist_parentmarginleftright"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:text="Note: Sms Actions are allowed only from Registered Mobile Numbers. Click here to Add"
-                android:textSize="12dp"
-                android:textColor="@color/colorforeground"
-                android:background="#b5b5f5"
+            <LinearLayout
+                android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+                android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
+                android:background="#d9d9d9"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/SmsActionHeader"
+                    android:text="@string/smsactionsheader"
+                    android:textSize="12dp"
+                    android:textColor="@color/colorforeground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="TriggerContactsActivity"/>
+            </LinearLayout>
 
             <LinearLayout
+                android:paddingLeft="@dimen/smsactionlist_parentmarginleftright"
+                android:paddingRight="@dimen/smsactionlist_parentmarginleftright"
                 android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
-                android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
+                android:paddingBottom="@dimen/smsactionlist_parentmarginleftright"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+                    android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/timeroptionheight"
-                    android:layout_marginTop="@dimen/margintopbottomToggleButton"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/timeroptionheight"
+                        android:layout_marginTop="@dimen/margintopbottomToggleButton"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="Lock the Screen"
+                            android:textAllCaps="false"
+                            android:textColor="@color/tilebackground"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/labels_textsize" />
+
+                        <ToggleButton
+                            android:id="@+id/lockScreen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/togglebuttonshape"
+                            android:textAllCaps="false"
+                            android:textColor="@color/tileforeground" />
+                    </RelativeLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
+                        android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:text="Lock the Screen"
-                        android:textAllCaps="false"
-                        android:textColor="@color/tilebackground"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/labels_textsize" />
+                        android:textColor="@color/colorforeground"
+                        android:textSize="@dimen/labels_textsize"
+                        android:text="Lock the Screen when Sms 'lock' is received"/>
 
-                    <ToggleButton
-                        android:id="@+id/lockScreen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/togglebuttonshape"
-                        android:textAllCaps="false"
-                        android:textColor="@color/tileforeground" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
-                    android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                <LinearLayout
+                    android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
+                    android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorforeground"
-                    android:textSize="@dimen/labels_textsize"
-                    android:text="Lock the Screen when Sms 'lock' is received"/>
+                    android:layout_height="wrap_content">
 
-            </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/timeroptionheight"
+                        android:layout_marginTop="@dimen/margintopbottomToggleButton"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:paddingTop="@dimen/smsactionlist_childmargintopbottom"
-                android:paddingBottom="@dimen/smsactionlist_childmargintopbottom"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:text="Kid Safe Mode"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            android:textColor="@color/tilebackground"
+                            android:textSize="@dimen/labels_textsize" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/timeroptionheight"
-                    android:layout_marginTop="@dimen/margintopbottomToggleButton"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                        <ToggleButton
+                            android:id="@+id/childMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/togglebuttonshape"
+                            android:textAllCaps="false"
+                            android:textColor="@color/tileforeground" />
+                    </RelativeLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
+                        android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:text="Kid Safe Mode"
-                        android:textAllCaps="false"
-                        android:textStyle="bold"
-                        android:textColor="@color/tilebackground"
-                        android:textSize="@dimen/labels_textsize" />
+                        android:textColor="@color/colorforeground"
+                        android:textSize="@dimen/labels_textsize"
+                        android:text="Perform below Actions when Sms 'kidmode' is received"/>
 
-                    <ToggleButton
-                        android:id="@+id/childMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/togglebuttonshape"
-                        android:textAllCaps="false"
-                        android:textColor="@color/tileforeground" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/childmodesettingslayout"
                     android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
-                    android:layout_marginTop="@dimen/smsactionlist_childmargintopbottom2"
+                    android:layout_marginRight="@dimen/smsactionlist_childmargingleftright2"
+                    android:layout_marginBottom="@dimen/smsactionlist_childmargintopbottom"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorforeground"
-                    android:textSize="@dimen/labels_textsize"
-                    android:text="Perform below Actions when Sms 'kidmode' is received"/>
+                    android:layout_height="wrap_content">
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/childmodesettingslayout"
-                android:layout_marginLeft="@dimen/smsactionlist_childmargingleftright2"
-                android:layout_marginRight="@dimen/smsactionlist_childmargingleftright2"
-                android:layout_marginBottom="@dimen/smsactionlist_childmargintopbottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include layout="@layout/components_settings"/>
+                    <include layout="@layout/components_settings"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

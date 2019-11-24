@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -27,8 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import static android.view.View.VISIBLE;
-
 public class SmsActionList extends AppCompatActivity {
 
     private ToggleButton lockScreen, childMode;
@@ -36,10 +33,11 @@ public class SmsActionList extends AppCompatActivity {
     private RelativeLayout lockPanelInChildMode;
     private SeekBar mediaVolume, brightness;
     private TextView turnOffScreenPanel, switch2HomePanel, wifiPanel, silentModePanel, brightnessPanel, mediavolumePanel;
-    private boolean adminPermissionJustProvided = false, writePermissionJustProvided = false;
+    private boolean writePermissionJustProvided = false;
     private static final int ADMIN_INTENT = 1;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
+    boolean lockSmsActionJustEnabled = false, kidModeSmsActionJustEnabled = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,10 +71,10 @@ public class SmsActionList extends AppCompatActivity {
         brightness = (SeekBar) findViewById(R.id.brightness);
         mediaVolumeEnable = (ToggleButton) findViewById(R.id.mediavolumeenable);
 
-        lockScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        lockScreen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View v) {
+                if (lockScreen.isChecked()) {
                     /*if (!PermissionChecker.HasReadSmsPermission(SmsActionList.this)) {
                         PermissionChecker.PromtForReadSmsPermission(SmsActionList.this, false);
                     }
@@ -87,32 +85,10 @@ public class SmsActionList extends AppCompatActivity {
                     if (!PermissionChecker.HasReadSmsPermission(SmsActionList.this)
                             || PermissionChecker.GetDevPolMgrWithAdmnPerm(SmsActionList.this) == null) {
 
-                        LayoutInflater li = LayoutInflater.from(SmsActionList.this);
-                        View promptsView = li.inflate(R.layout.dialog_permission, null);
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                SmsActionList.this);
-
-                        alertDialogBuilder.setView(promptsView);
-                        alertDialogBuilder.setCancelable(false).
-                                setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent permIntent = new Intent(SmsActionList.this, PermissionActivity.class);
-                                        permIntent.putExtra("reqCode", Constants.REQ_CODE_LOCK_SMS_ACTION_PERM);
-                                        startActivityForResult(permIntent, Constants.REQ_CODE_LOCK_SMS_ACTION_PERM);
-                                    }
-                                }).
-                                setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                        lockScreen.setChecked(false);
-                                    }
-                                });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.setTitle("Permissions Required");
-                        alertDialog.show();
+                        TriggerAlertDialog(true, true);
+                    }
+                    else if (GetRegisteredContacts() == 0) {
+                        TriggerAlertDialog(true, false);
                     }
                 }
             }
@@ -121,7 +97,21 @@ public class SmsActionList extends AppCompatActivity {
         childMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UpdateChildModeSettings();
+                if (childMode.isChecked()) {
+                    if (!PermissionChecker.HasReadSmsPermission(SmsActionList.this)) {
+
+                        TriggerAlertDialog(false, true);
+                    }
+                    else if (GetRegisteredContacts() == 0) {
+                        TriggerAlertDialog(false, false);
+                    }
+                    else {
+                        UpdateChildModeSettings();
+                    }
+                }
+                else {
+                    UpdateChildModeSettings();
+                }
             }
         });
 
@@ -163,6 +153,76 @@ public class SmsActionList extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.tilebackground));
         }
+    }
+
+    private void TriggerAlertDialog(final boolean isLock, final boolean isPerm) {
+        LayoutInflater li = LayoutInflater.from(SmsActionList.this);
+        View promptsView = li.inflate(R.layout.alert_dialog, null);
+        TextView dialogContent = (TextView) promptsView.findViewById(R.id.dialogContent);
+
+        String title = "";
+        if (isLock && isPerm) {
+            dialogContent.setText("Read Sms/Receive Sms\nDevice Admin");
+            title = "Permissions Required";
+        }
+        else if (isLock && !isPerm) {
+            dialogContent.setText("Atleast one Contact has to be registered to allow Sms Action 'lock'");
+            title = "Register Contacts";
+        }
+        else if (!isLock && isPerm) {
+            dialogContent.setText("Read Sms/Receive Sms\nModify System Settings");
+            title = "Permissions Required";
+        }
+        else {
+            dialogContent.setText("Atleast one Contact has to be registered to allow Sms Action 'kidmode'");
+            title = "Register Contacts";
+        }
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                SmsActionList.this);
+
+        alertDialogBuilder.setView(promptsView);
+        alertDialogBuilder.setCancelable(false).
+                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (isLock && isPerm) {
+                            Intent permIntent = new Intent(SmsActionList.this, PermissionActivity.class);
+                            permIntent.putExtra("reqCode", Constants.REQ_CODE_LOCK_ACTION);
+                            startActivityForResult(permIntent, Constants.REQ_CODE_LOCK_ACTION);
+                        }
+                        else if (!isLock && isPerm) {
+                            Intent permIntent = new Intent(SmsActionList.this, PermissionActivity.class);
+                            permIntent.putExtra("reqCode", Constants.REQ_CODE_KidMode_ACTION);
+                            startActivityForResult(permIntent, Constants.REQ_CODE_KidMode_ACTION);
+                        }
+                        else if (isLock && !isPerm) {
+                            Intent contactsIntent = new Intent(SmsActionList.this, ContactsActivity.class);
+                            contactsIntent.putExtra("reqCode", Constants.REQ_CODE_LOCK_ACTION);
+                            startActivityForResult(contactsIntent, Constants.REQ_CODE_LOCK_ACTION);
+                        }
+                        else {
+                            Intent contactsIntent = new Intent(SmsActionList.this, ContactsActivity.class);
+                            contactsIntent.putExtra("reqCode", Constants.REQ_CODE_KidMode_ACTION);
+                            startActivityForResult(contactsIntent, Constants.REQ_CODE_KidMode_ACTION);
+                        }
+                    }
+                }).
+                setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        if (isLock) {
+                            lockScreen.setChecked(false);
+                        }
+                        else {
+                            childMode.setChecked(false);
+                        }
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setTitle(title);
+        alertDialog.show();
     }
 
     public void UpdateBrightnessControl() {
@@ -219,6 +279,17 @@ public class SmsActionList extends AppCompatActivity {
             UpdateScreenTurnOffControl();
             writePermissionJustProvided = false;
         }
+        else if (lockSmsActionJustEnabled) {
+            lockScreen.setChecked(PermissionChecker.HasReadSmsPermission(SmsActionList.this)
+                    && PermissionChecker.GetDevPolMgrWithAdmnPerm(SmsActionList.this) != null
+                    && GetRegisteredContacts() > 0);
+            lockSmsActionJustEnabled = false;
+        }
+        else if (kidModeSmsActionJustEnabled) {
+            childMode.setChecked(PermissionChecker.HasReadSmsPermission(SmsActionList.this) && GetRegisteredContacts() > 0);
+            kidModeSmsActionJustEnabled = false;
+            UpdateChildModeSettings();
+        }
         else {
             UpdateSettingsFromDatabase();
             UpdateChildModeSettings();
@@ -229,11 +300,10 @@ public class SmsActionList extends AppCompatActivity {
         // Read Settings from Table
         DatabaseActionHelper dbHelper = new DatabaseActionHelper(getApplicationContext());
         Cursor c = dbHelper.ReadData(Constants.LOCKSCREEN_SMS_ACTION_ALARMID);
-        if ((c != null && c.getCount() > 0) || adminPermissionJustProvided) {
+        boolean hasReadSmsPermission = PermissionChecker.HasReadSmsPermission(SmsActionList.this);
+        if ((c != null && c.getCount() > 0)) {
             boolean hadDeviceAdminPermission = (PermissionChecker.GetDevPolMgrWithAdmnPerm(getApplicationContext()) != null);
-            boolean hasReadSmsPermission = PermissionChecker.HasReadSmsPermission(SmsActionList.this);
-            lockScreen.setChecked(hadDeviceAdminPermission && hasReadSmsPermission);
-            adminPermissionJustProvided = false;
+            lockScreen.setChecked(hadDeviceAdminPermission && hasReadSmsPermission && GetRegisteredContacts() > 0);
         }
         else {
             lockScreen.setChecked(false);
@@ -241,7 +311,7 @@ public class SmsActionList extends AppCompatActivity {
 
         c = dbHelper.ReadData(Constants.CHILDMODE_SMS_ACTION_ALARMID);
         if (c != null && c.getCount() > 0) {
-            childMode.setChecked(true);
+            childMode.setChecked(hasReadSmsPermission && GetRegisteredContacts() > 0);
         }
         else {
             childMode.setChecked(false);
@@ -345,25 +415,25 @@ public class SmsActionList extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQ_CODE_ADMIN_PERM) {
-            if (resultCode == RESULT_OK) {
-                adminPermissionJustProvided = true;
-                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Device Administrator Process Cancelled", Toast.LENGTH_SHORT).show();
-            }
+        if (requestCode == Constants.REQ_CODE_LOCK_ACTION) {
+            lockSmsActionJustEnabled = true;
         }
-        else if (requestCode == Constants.REQ_CODE_LOCK_SMS_ACTION_PERM) {
-            if (resultCode == Constants.RES_CODE_LOCK_SMS_ACTION_PERM_SUCCESS) {
-                lockScreen.setChecked(true);
-            }
-            else {
-                lockScreen.setChecked(false);
-            }
+        else if (requestCode == Constants.REQ_CODE_KidMode_ACTION || requestCode == Constants.REQ_CODE_KidMode_ACTION) {
+            kidModeSmsActionJustEnabled = true;
         }
         else if (requestCode == Constants.REQ_CODE_WRITE_PERM) {
             writePermissionJustProvided = true;
         }
+    }
+
+    public void TriggerContactsActivity(View view) {
+        Intent intent = new Intent(SmsActionList.this, ContactsActivity.class);
+        startActivity(intent);
+    }
+
+    private int GetRegisteredContacts() {
+        DatabaseActionHelper db = new DatabaseActionHelper(getApplicationContext());
+        Cursor c = db.ReadAllContacts();
+        return  c != null ? c.getCount() : 0;
     }
 }

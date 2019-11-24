@@ -1,6 +1,7 @@
 package com.praskum.parentcontrol;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.provider.Settings;
 import android.util.Log;
 
