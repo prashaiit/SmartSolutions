@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/TimerAction"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="Timer Actions"
@@ -30,8 +29,7 @@
             android:onClick="TriggerTimerActionActivity"/>
 
         <Button
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
@@ -48,13 +46,38 @@
             android:layout_height="wrap_content"
             android:id="@+id/TimerAction2"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="View Timer Actions"
             android:background="@drawable/buttonshape"
             android:textColor="@color/tileforeground"
             android:onClick="TriggerTimerActionActivity2"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Feedback"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Feedback"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/tileforeground"
+            android:onClick="TriggerEmailActivity"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Share"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Share"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/tileforeground"
+            android:onClick="TriggerShareActivity"/>
 
     </LinearLayout>
 

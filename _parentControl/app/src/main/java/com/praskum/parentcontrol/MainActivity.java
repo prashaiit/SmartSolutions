@@ -3,6 +3,7 @@ package com.praskum.parentcontrol;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -81,5 +82,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void TriggerEmailActivity(View view) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:prasha.kumar.b@gmail.com")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Kid Safe Mode | Feedback");
+        //intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+    public void TriggerShareActivity(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
