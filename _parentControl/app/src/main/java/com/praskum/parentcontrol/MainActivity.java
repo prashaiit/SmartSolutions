@@ -100,4 +100,7 @@ public class MainActivity extends AppCompatActivity {
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }
+
+    public void TriggerSettingsDialog(View view) {
+    }
 }
