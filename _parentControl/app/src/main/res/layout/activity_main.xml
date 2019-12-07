@@ -10,6 +10,7 @@
 
     <LinearLayout
         android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_marginStart="60dp"
@@ -38,7 +39,7 @@
             android:textColor="@color/tileforeground"
             android:onClick="TriggerSmsActionActivity"/>
 
-        <Button
+        <!--<Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TimerAction2"
@@ -47,7 +48,7 @@
             android:textAllCaps="false"
             android:background="@drawable/buttonshape"
             android:textColor="@color/tileforeground"
-            android:onClick="TriggerTimerActionActivity2"/>
+            android:onClick="TriggerTimerActionActivity2"/>-->
 
         <Button
             android:layout_width="match_parent"
@@ -59,17 +60,6 @@
             android:background="@drawable/buttonshape"
             android:textColor="@color/tileforeground"
             android:onClick="TriggerEmailActivity"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Settings"
-            android:layout_marginTop="30dp"
-            android:text="Settings"
-            android:textAllCaps="false"
-            android:background="@drawable/buttonshape"
-            android:textColor="@color/tileforeground"
-            android:onClick="TriggerSettingsDialog"/>
 
         <!--<Button
             android:visibility="gone"
