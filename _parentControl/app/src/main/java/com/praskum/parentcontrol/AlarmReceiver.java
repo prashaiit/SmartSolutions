@@ -32,7 +32,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 boolean isDeleted = dbHelper.DeleteData(id);
                 if (!isDeleted) {
-                    Toast.makeText(context, "Failed to delete the record", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Failed to delete the record. Making second attempt", Toast.LENGTH_LONG).show();
+
+                    isDeleted = dbHelper.DeleteData(id);
+                    Toast.makeText(context, "Second attempt for delete : (success/fail) = " + isDeleted, Toast.LENGTH_LONG).show();
                 }
             }
         }

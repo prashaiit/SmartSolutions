@@ -29,6 +29,7 @@
             android:onClick="TriggerTimerActionActivity"/>
 
         <Button
+            android:visibility="gone"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +40,8 @@
             android:textColor="@color/tileforeground"
             android:onClick="TriggerSmsActionActivity"/>
 
-        <!--<Button
+        <Button
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TimerAction2"
@@ -48,7 +50,7 @@
             android:textAllCaps="false"
             android:background="@drawable/buttonshape"
             android:textColor="@color/tileforeground"
-            android:onClick="TriggerTimerActionActivity2"/>-->
+            android:onClick="TriggerTimerActionActivity2"/>
 
         <Button
             android:layout_width="match_parent"
