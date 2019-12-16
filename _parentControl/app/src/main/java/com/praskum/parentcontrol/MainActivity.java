@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TriggerSmsActionActivity(View view){
-        Intent intent = new Intent(MainActivity.this, SmsActionList.class);
-        startActivity(intent);
+        //Intent intent = new Intent(MainActivity.this, SmsActionList.class);
+        //startActivity(intent);
+        Toast.makeText(getApplicationContext(), "This feature will be available in upcoming version", Toast.LENGTH_LONG).show();
     }
 
     @Override
