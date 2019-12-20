@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (item.getItemId() == R.id.feedbackmenu) {
             TriggerEmailActivity();
+        } else if (item.getItemId() == R.id.sharemenu) {
+            TriggerShareActivity();
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,6 +99,19 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
 
         startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+    public void TriggerShareActivity() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Kid Safe Mode(Parental Control)");
+
+        //String shareMessage = getString(R.string.sharingIntentText) + "\n\n";
+        String shareMessage = "Kid Safe Mode(Parental Control)\n\n";
+        shareMessage += "Do you want your kid to leave the mobile device without making him/her cry ?\nYou can do that with this app\n\n";
+        shareMessage += "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        startActivity(Intent.createChooser(shareIntent, "choose one"));
     }
 
     public void TriggerShareActivity(View view) {

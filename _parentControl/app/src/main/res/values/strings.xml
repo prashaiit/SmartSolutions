@@ -12,6 +12,7 @@
     <string name="smsactionsheader"><i><b>Note:</b> Sms messages will be considered only from Registered Mobile Numbers. Click here to Add/Update</i></string>
     <string name="PermissionsRequired"><b>Permissions Required</b></string>
     <string name="ContactsRequired"><b>Register Contacts</b></string>
+    <string name="sharingIntentText"><![CDATA[<a href=\'https://play.google.com/store/apps/details?id=com.praskum.parentcontrol\'>Kid Safe Mode(Parental Control)</a>]]></string>
     <string name="SmspolicyTextHeader">Sms Policy</string>
     <string name="SmsPolicy">
         1. Sms messages will be read only when Receive and Read Sms Permission is given by the user\n\n
