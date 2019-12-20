@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/contactsmenu" android:visible="false"
+    <item android:id="@+id/contactsmenu"
         android:title="Contacts"/>
 
     <item android:id="@+id/permissionmenu"
         android:title="Permissions" />
+
+    <item android:id="@+id/feedbackmenu"
+        android:title="Feedback" />
 </menu>

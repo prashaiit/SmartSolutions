@@ -51,17 +51,6 @@
             android:textColor="@color/tileforeground"
             android:onClick="TriggerTimerActionActivity2"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Feedback"
-            android:layout_marginTop="30dp"
-            android:text="Feedback"
-            android:textAllCaps="false"
-            android:background="@drawable/buttonshape"
-            android:textColor="@color/tileforeground"
-            android:onClick="TriggerEmailActivity"/>
-
         <!--<Button
             android:visibility="gone"
             android:layout_width="match_parent"

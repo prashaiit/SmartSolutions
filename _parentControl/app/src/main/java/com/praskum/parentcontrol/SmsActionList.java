@@ -344,12 +344,11 @@ public class SmsActionList extends AppCompatActivity {
             mediaVolumeEnable.setChecked(currentMediaVolume != -1);
 
             int brgness = c.getInt(c.getColumnIndex("Brightness"));
+            boolean hasWritePerm = PermissionChecker.CheckPermissionForWriteSettings(SmsActionList.this);
+            brightnessWritePermission.setChecked(brgness != -1 && hasWritePerm);
             if (brgness != -1) {
                 brightness.setProgress(brgness);
             }
-
-            boolean hasWritePerm = PermissionChecker.CheckPermissionForWriteSettings(SmsActionList.this);
-            brightnessWritePermission.setChecked(brgness != -1 && hasWritePerm);
             Log.i("timeraction", "values read = " + c.getInt(1) + " , " + c.getInt(2));
         }
     }
@@ -371,6 +370,12 @@ public class SmsActionList extends AppCompatActivity {
         brightnessPanel.setEnabled(enabled);
         brightnessWritePermission.setEnabled(enabled);
         brightness.setEnabled(enabled && brightnessWritePermission.isChecked());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UpdateSmsActionsInTable();
     }
 
     @Override

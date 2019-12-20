@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TriggerSmsActionActivity(View view){
-        //Intent intent = new Intent(MainActivity.this, SmsActionList.class);
-        //startActivity(intent);
-        Toast.makeText(getApplicationContext(), "This feature will be available in upcoming version", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(MainActivity.this, SmsActionList.class);
+        startActivity(intent);
+        //Toast.makeText(getApplicationContext(), "This feature will be available in upcoming version", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -82,11 +82,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, PermissionActivity.class);
             startActivity(intent);
         }
+        else if (item.getItemId() == R.id.feedbackmenu) {
+            TriggerEmailActivity();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void TriggerEmailActivity(View view) {
+    public void TriggerEmailActivity() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:prasha.kumar.b@gmail.com")); // only email apps should handle this
         intent.putExtra(Intent.EXTRA_SUBJECT, "Kid Safe Mode | Feedback");
