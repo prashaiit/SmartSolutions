@@ -1,5 +1,6 @@
 package com.praskum.parentcontrol;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -85,11 +86,33 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (item.getItemId() == R.id.feedbackmenu) {
             TriggerEmailActivity();
-        } else if (item.getItemId() == R.id.sharemenu) {
+        }
+        else if (item.getItemId() == R.id.sharemenu) {
             TriggerShareActivity();
+        }
+        else if (item.getItemId() == R.id.ratingmenu) {
+            TriggerRatingActivity();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void TriggerRatingActivity() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        try {
+            intent.setData(Uri.parse("market://details?id=com.praskum.parentcontrol"));
+            startActivity(intent);
+        }
+        catch (ActivityNotFoundException e) {
+            //Market (Google play) app seems not installed, let's try to open a webbrowser
+            try {
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.praskum.parentcontrol"));
+                startActivity(intent);
+            }
+            catch (ActivityNotFoundException e1) {
+                Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void TriggerEmailActivity() {
@@ -104,13 +127,14 @@ public class MainActivity extends AppCompatActivity {
     public void TriggerShareActivity() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
+        //sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Kid Safe Mode(Parental Control)");
 
         //String shareMessage = getString(R.string.sharingIntentText) + "\n\n";
-        String shareMessage = "Kid Safe Mode(Parental Control)\n\n";
-        shareMessage += "Do you want your kid to leave the mobile device without making him/her cry ?\nYou can do that with this app\n\n";
-        shareMessage += "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        //String shareMessage = "Kid Safe Mode(Parental Control)\n\n";
+        //shareMessage += "Do you want your kid to leave the mobile device without making him/her cry ?\nYou can do that with this app\n\n";
+        //shareMessage += "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sharingIntentText));
         startActivity(Intent.createChooser(shareIntent, "choose one"));
     }
 

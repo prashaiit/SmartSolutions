@@ -6,9 +6,9 @@ android {
         applicationId "com.praskum.parentcontrol"
         minSdkVersion 19
         targetSdkVersion 28
-        versionName '4'
+        versionName '7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 4
+        versionCode 7
     }
     buildTypes {
         release {

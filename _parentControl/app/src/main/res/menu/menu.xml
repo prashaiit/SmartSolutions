@@ -11,4 +11,7 @@
 
     <item android:id="@+id/feedbackmenu"
         android:title="Feedback" />
+
+    <item android:id="@+id/ratingmenu"
+        android:title="Rate this app" />
 </menu>

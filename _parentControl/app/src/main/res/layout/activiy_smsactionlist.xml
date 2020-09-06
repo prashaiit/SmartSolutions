@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorforeground"
                         android:textSize="@dimen/labels_textsize"
-                        android:text="Lock the Screen when Sms 'lock' is received"/>
+                        android:text="Screen will be locked when SMS message 'lock' is received from a registered mobile number"/>
 
                 </LinearLayout>
 
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorforeground"
                         android:textSize="@dimen/labels_textsize"
-                        android:text="Perform below Actions when Sms 'kidmode' is received"/>
+                        android:text="Below system actions will be run when SMS message'kidmode' is received from a registered mobile number"/>
 
                 </LinearLayout>
 

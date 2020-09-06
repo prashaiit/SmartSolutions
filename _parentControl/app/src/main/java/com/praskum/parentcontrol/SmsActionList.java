@@ -338,13 +338,14 @@ public class SmsActionList extends AppCompatActivity {
             switch2Home.setChecked(c.getInt(c.getColumnIndex("SwitchToHomeScreen")) == 1);
             wifi.setChecked(c.getInt(c.getColumnIndex("Wifi")) == 1);
             silentMode.setChecked(c.getInt(c.getColumnIndex("Silent")) == 1);
-            turnOffScreen.setChecked(c.getInt(c.getColumnIndex("ScreenOff")) == 1);
+
+            boolean hasWritePerm = PermissionChecker.CheckPermissionForWriteSettings(SmsActionList.this);
+            turnOffScreen.setChecked(c.getInt(c.getColumnIndex("ScreenOff")) == 1 && hasWritePerm);
             int currentMediaVolume = c.getInt(c.getColumnIndex("MediaVolume"));
             mediaVolume.setProgress(currentMediaVolume);
             mediaVolumeEnable.setChecked(currentMediaVolume != -1);
 
             int brgness = c.getInt(c.getColumnIndex("Brightness"));
-            boolean hasWritePerm = PermissionChecker.CheckPermissionForWriteSettings(SmsActionList.this);
             brightnessWritePermission.setChecked(brgness != -1 && hasWritePerm);
             if (brgness != -1) {
                 brightness.setProgress(brgness);
