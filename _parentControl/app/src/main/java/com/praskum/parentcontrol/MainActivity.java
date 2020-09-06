@@ -90,14 +90,11 @@ public class MainActivity extends AppCompatActivity {
         else if (item.getItemId() == R.id.sharemenu) {
             TriggerShareActivity();
         }
-        else if (item.getItemId() == R.id.ratingmenu) {
-            TriggerRatingActivity();
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void TriggerRatingActivity() {
+    public void TriggerRatingActivity(View v) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         try {
             intent.setData(Uri.parse("market://details?id=com.praskum.parentcontrol"));

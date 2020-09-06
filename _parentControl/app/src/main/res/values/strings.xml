@@ -36,4 +36,6 @@
     <string name="TurnOnSilentMode">Turn On Silent Mode</string>
     <string name="MediaVolume">Media Volume</string>
     <string name="Brightness">Brightness</string>
+    <string name="Rating">Give Rating</string>
+    <string name="RatingText">*This app is for a Good Cause. Please give your rating</string>
 </resources>
